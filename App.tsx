@@ -36,16 +36,16 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white font-sans selection:bg-brand-teal selection:text-black">
+    <div className="min-h-screen bg-brand-navy text-white font-sans selection:bg-brand-teal selection:text-black">
       {/* Floating Nav for Demo purposes */}
       <nav className="fixed top-0 left-0 w-full z-50 pointer-events-none">
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
           <div className="pointer-events-auto">
             <button
               onClick={() => navigate(Route.HOME)}
-              className="font-serif font-bold text-2xl tracking-tighter text-black hover:text-brand-teal transition-colors focus:outline-none flex items-center gap-2"
+              className="font-serif font-bold text-2xl tracking-tighter text-white hover:text-brand-teal transition-colors focus:outline-none flex items-center gap-2"
             >
-              Garsabers<span className="text-brand-teal">.</span>
+              UNYTECHS<span className="text-brand-teal">.</span>
             </button>
           </div>
           <div className="pointer-events-auto flex gap-4">
@@ -83,7 +83,7 @@ const AdminLogin: React.FC<{ onLogin: (success: boolean) => void }> = ({ onLogin
     // Simulation
     setTimeout(() => {
       // Updated credentials
-      if (email === 'info@garsabers.com' && password === 'admin') {
+      if (email === 'info@unytechs.com' && password === 'admin') {
         onLogin(true);
       } else {
         alert('Invalid credentials.');
@@ -93,13 +93,13 @@ const AdminLogin: React.FC<{ onLogin: (success: boolean) => void }> = ({ onLogin
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-black relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center bg-brand-navy relative overflow-hidden">
       {/* Ambient Background */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand-purple/10 rounded-full blur-[120px]" />
 
-      <div className="bg-[#0F0F12] p-10 rounded-3xl w-full max-w-md relative z-10 border border-white/10 shadow-2xl backdrop-blur-xl">
+      <div className="bg-brand-light p-10 rounded-3xl w-full max-w-md relative z-10 border border-white/10 shadow-2xl backdrop-blur-xl">
         <div className="mb-8 text-center">
-          <h2 className="font-bold text-3xl text-white mb-2 italic tracking-tight">Garsabers <span className="text-brand-teal">Portal</span></h2>
+          <h2 className="font-bold text-3xl text-white mb-2 italic tracking-tight">UNYTECHS <span className="text-brand-teal">Portal</span></h2>
           <p className="text-slate-400 text-sm">Authorized Personnel Only</p>
         </div>
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -110,7 +110,7 @@ const AdminLogin: React.FC<{ onLogin: (success: boolean) => void }> = ({ onLogin
               value={email}
               onChange={e => setEmail(e.target.value)}
               className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-teal transition-colors placeholder:text-slate-600"
-              placeholder="info@garsabers.com"
+              placeholder="info@unytechs.com"
             />
           </div>
           <div>
@@ -126,7 +126,7 @@ const AdminLogin: React.FC<{ onLogin: (success: boolean) => void }> = ({ onLogin
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-gradient-to-r from-brand-purple to-brand-teal text-black font-bold rounded-xl py-3 hover:opacity-90 transition-all shadow-[0_0_20px_rgba(153,69,255,0.3)] disabled:opacity-50"
+            className="w-full bg-brand-teal text-black font-bold rounded-xl py-3 hover:opacity-90 transition-all shadow-[0_0_20px_rgba(0,230,118,0.3)] disabled:opacity-50"
           >
             {loading ? 'Verifying Credentials...' : 'Access Console'}
           </button>
@@ -134,8 +134,8 @@ const AdminLogin: React.FC<{ onLogin: (success: boolean) => void }> = ({ onLogin
 
         <div className="mt-8 pt-6 border-t border-white/5 text-center">
           <p className="text-[10px] text-slate-500 mb-2 uppercase tracking-widest font-bold">Encrypted Connection</p>
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10">
-            <code className="text-[11px] text-brand-purple font-mono">info@garsabers.com</code>
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-black/50 border border-white/10">
+            <code className="text-[11px] text-brand-purple font-mono">info@unytechs.com</code>
             <span className="text-slate-600">/</span>
             <code className="text-[11px] text-brand-teal font-mono">admin</code>
           </div>

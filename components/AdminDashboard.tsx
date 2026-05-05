@@ -16,7 +16,7 @@ export const AdminDashboard: React.FC = () => {
             {/* Sidebar */}
             <aside className="w-64 border-r border-slate-200 bg-slate-50 flex flex-col">
                 <div className="p-6 border-b border-slate-200">
-                    <h1 className="font-bold text-lg text-brand-navy leading-tight">Garsabers<span className="text-brand-teal">.</span></h1>
+                    <h1 className="font-bold text-lg text-brand-navy leading-tight">UNYTECHS<span className="text-brand-teal">.</span></h1>
                     <span className="text-[10px] text-slate-500 uppercase tracking-widest mt-1 block">Institutional Admin</span>
                 </div>
 
@@ -33,7 +33,7 @@ export const AdminDashboard: React.FC = () => {
                         <div className="w-8 h-8 rounded-full bg-brand-navy text-white flex items-center justify-center font-bold text-xs shadow-lg shadow-brand-navy/20">TP</div>
                         <div>
                             <p className="text-sm font-medium text-brand-navy">Administrator</p>
-                            <p className="text-xs text-slate-500">admin@garsabers.com</p>
+                            <p className="text-xs text-slate-500">admin@unytechs.com</p>
                         </div>
                     </div>
                 </div>

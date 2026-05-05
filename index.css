@@ -13,20 +13,18 @@
 }
 
 .glass {
-    background: rgba(255, 255, 255, 0.7);
+    background: rgba(29, 29, 31, 0.7); /* Apple space grey */
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(226, 232, 240, 0.8);
-    /* Slate 200 */
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
 .glass-accent {
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(29, 29, 31, 0.9);
     backdrop-filter: blur(12px);
-    border: 1px solid rgba(0, 168, 150, 0.2);
-    /* Teal border */
-    box-shadow: 0 4px 12px rgba(0, 168, 150, 0.1);
+    border: 1px solid rgba(0, 230, 118, 0.3); /* Green glow border */
+    box-shadow: 0 0 20px rgba(0, 230, 118, 0.15);
 }
 
 .text-glow-navy {

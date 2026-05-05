@@ -133,12 +133,14 @@ const DEFAULT_LOGS: AccessLog[] = [
 
 
 const DEFAULT_COMPANY_SETTINGS: CompanySettings = {
-  name: 'Garsabers',
-  vatNumber: 'IE 1234567T',
-  address: 'Garsabers Inc.\nEcommerce Division',
-  invoicePrefix: 'GS',
-  website: 'garsabers.com',
-  footerText: 'Done-For-You Shopify Stores. Professional Development Services.'
+  name: 'UNYTECHS',
+  email: 'info@unytechs.com',
+  address: 'UNYTECHS Inc.\nEcommerce Division',
+  phone: '+1 (555) 123-4567',
+  website: 'unytechs.com',
+  footerText: 'Done-For-You Shopify Stores. Professional Development Services.',
+  vatNumber: 'US123456789',
+  invoicePrefix: 'UNY'
 };
 
 // --- INITIALIZE STATE FROM STORAGE OR DEFAULTS ---
@@ -349,8 +351,8 @@ export const MockBackend = {
     doc.setFontSize(20);
     doc.setFont('helvetica', 'bold');
     doc.setTextColor(15, 23, 42); // slate-900
-    // Hardcoded as requested, regardless of company settings
-    doc.text("Garsabers", 20, 25);
+    // UNYTECHS header
+    doc.text("UNYTECHS", 20, 25);
 
     // Website tagline
     doc.setFont('helvetica', 'normal');
@@ -725,7 +727,8 @@ export const MockBackend = {
     doc.setTextColor(...brandNavy);
     doc.setFontSize(10);
     doc.setFont('helvetica', 'bold');
-    doc.text("© 2026 GARSABERS", 20, 270);
+    // Footer
+    doc.text("© 2026 UNYTECHS", 20, 270);
 
     return doc.output('blob');
   },

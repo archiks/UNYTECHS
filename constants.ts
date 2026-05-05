@@ -4,7 +4,7 @@ import { Product } from './types';
 export const PRODUCTS: Product[] = [
   {
     id: 'prod_starter',
-    name: 'Starter Shopify Store',
+    name: 'Unytechs Launch',
     price: 250,
     level: 1,
     tagline: 'Perfect for first-time merchants.',
@@ -20,11 +20,11 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'prod_growth',
-    name: 'Growth Shopify Store',
+    name: 'Unytechs Scale',
     price: 500,
     level: 2,
     tagline: 'Designed for scaling and ads.',
-    description: 'Everything in Starter plus advanced apps, email marketing setup, and higher conversion optimization.',
+    description: 'Everything in Launch plus advanced apps, email marketing setup, and higher conversion optimization.',
     features: [
       'Everything in Starter',
       'Advanced App Integration',
@@ -37,7 +37,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'prod_premium',
-    name: 'Premium Shopify Store',
+    name: 'Unytechs Pro',
     price: 1000,
     level: 3,
     tagline: 'The ultimate brand dominance package.',
@@ -59,7 +59,7 @@ export const TESTIMONIALS = [
     initials: "MJ",
     name: "Michael J.",
     role: "Dropshipper",
-    text: "I tried for months to build a store myself. Garsabers built me a professional store in 3 days and I made my first sale 24 hours later."
+    text: "I tried for months to build a store myself. UNYTECHS built me a professional store in 3 days and I made my first sale 24 hours later."
   },
   {
     initials: "Sarah K.",

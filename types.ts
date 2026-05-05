@@ -106,4 +106,6 @@ export interface CompanySettings {
   invoicePrefix: string;
   website: string;
   footerText: string;
+  email?: string;
+  phone?: string;
 }

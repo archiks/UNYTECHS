@@ -4,14 +4,14 @@ import { ShieldCheck, XCircle, Code2 } from 'lucide-react';
 
 export const WhyUs: React.FC = () => {
     return (
-        <section className="py-24 bg-brand-light border-y border-slate-200">
+        <section className="py-24 bg-brand-navy border-y border-white/10">
             <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
                 <div>
-                    <h2 className="text-3xl font-bold text-brand-navy mb-6">This is <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-teal to-brand-purple">NOT</span> a Course.</h2>
-                    <p className="text-slate-600 text-lg mb-6 leading-relaxed">
+                    <h2 className="text-3xl font-bold text-white mb-6">This is <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-teal to-[#00ff88]">NOT</span> a Course.</h2>
+                    <p className="text-slate-400 text-lg mb-6 leading-relaxed">
                         Most "gurus" sell you a PDF and leave you to figure it out. We don't do that. We are a development agency that builds the asset for you.
                     </p>
-                    <p className="text-slate-600 text-lg mb-8 leading-relaxed">
+                    <p className="text-slate-400 text-lg mb-8 leading-relaxed">
                         You walk away with a fully functional, professional business—not just "knowledge."
                     </p>
 
@@ -20,22 +20,22 @@ export const WhyUs: React.FC = () => {
                             { icon: XCircle, text: "No DIY website builders or templates you have to edit.", color: "text-red-500" },
                             { icon: XCircle, text: "No guessing which apps to install.", color: "text-red-500" },
                             { icon: ShieldCheck, text: "100% Done-For-You Execution.", color: "text-brand-teal" },
-                            { icon: Code2, text: "Custom code and optimizations included.", color: "text-brand-purple" }
+                            { icon: Code2, text: "Custom code and optimizations included.", color: "text-[#00ff88]" }
                         ].map((item, i) => (
-                            <div key={i} className="flex items-center gap-4 p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
+                            <div key={i} className="flex items-center gap-4 p-4 rounded-xl bg-[#1d1d1f] border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
                                 <item.icon className={`w-6 h-6 ${item.color}`} />
-                                <span className="text-brand-navy font-medium">{item.text}</span>
+                                <span className="text-white font-medium">{item.text}</span>
                             </div>
                         ))}
                     </div>
                 </div>
 
                 <div className="relative">
-                    <div className="absolute inset-0 bg-brand-teal/5 blur-[80px] rounded-full pointer-events-none" />
-                    <div className="relative bg-white p-8 rounded-2xl border border-slate-200 shadow-xl">
-                        <div className="flex items-center justify-between mb-8 pb-8 border-b border-slate-100">
+                    <div className="absolute inset-0 bg-brand-teal/10 blur-[80px] rounded-full pointer-events-none" />
+                    <div className="relative bg-[#1d1d1f] p-8 rounded-2xl border border-white/10 shadow-[0_0_30px_rgba(0,0,0,0.8)] backdrop-blur-md">
+                        <div className="flex items-center justify-between mb-8 pb-8 border-b border-white/10">
                             <div>
-                                <h4 className="text-brand-navy font-bold text-lg">Traditional Way</h4>
+                                <h4 className="text-white font-bold text-lg">Traditional Way</h4>
                                 <span className="text-slate-500 text-sm">Do it yourself</span>
                             </div>
                             <div className="text-right">
@@ -53,7 +53,7 @@ export const WhyUs: React.FC = () => {
                             ].map((row, i) => (
                                 <div key={i} className="flex justify-between items-center">
                                     <span className="text-red-400/50 line-through text-sm">{row.bad}</span>
-                                    <span className="text-slate-500 font-medium text-sm">{row.label}</span>
+                                    <span className="text-slate-400 font-medium text-sm">{row.label}</span>
                                     <span className="text-brand-teal font-bold">{row.good}</span>
                                 </div>
                             ))}
