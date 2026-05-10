@@ -91,3 +91,22 @@ export const COUNTRIES = [
   "Spain", "Netherlands", "Switzerland", "Canada", "Australia",
   "Japan", "Singapore", "United Arab Emirates", "South Africa", "Norway"
 ];
+
+export type CurrencyCode = 'EUR' | 'GBP' | 'USD';
+
+export const SUPPORTED_CURRENCIES: { code: CurrencyCode; symbol: string; label: string }[] = [
+  { code: 'EUR', symbol: '€', label: 'EUR — € Euro' },
+  { code: 'GBP', symbol: '£', label: 'GBP — £ Pound' },
+  { code: 'USD', symbol: '$', label: 'USD — $ Dollar' },
+];
+
+const CURRENCY_SYMBOLS: Record<string, string> = {
+  EUR: '€',
+  GBP: '£',
+  USD: '$',
+};
+
+export const getCurrencySymbol = (code?: string): string => {
+  if (!code) return '€';
+  return CURRENCY_SYMBOLS[code] || code;
+};

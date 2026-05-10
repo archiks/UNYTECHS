@@ -108,4 +108,5 @@ export interface CompanySettings {
   footerText: string;
   email?: string;
   phone?: string;
+  invoiceCurrency: string;
 }

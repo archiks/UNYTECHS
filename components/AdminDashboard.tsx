@@ -4,7 +4,7 @@ import { LayoutDashboard, ShoppingCart, FileText, Download, Settings, Search, Pl
 import { MockBackend } from '../services/mockBackend';
 import { Order, Invoice, AccessLog, AdminStats, OrderStatus, DownloadLink, InvoiceAuditTrail, CompanySettings } from '../types';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
-import { COUNTRIES, PRODUCTS } from '../constants';
+import { COUNTRIES, PRODUCTS, SUPPORTED_CURRENCIES, getCurrencySymbol } from '../constants';
 
 type View = 'DASHBOARD' | 'ORDERS' | 'INVOICES' | 'LOGS' | 'SETTINGS';
 
@@ -67,12 +67,16 @@ const SidebarItem: React.FC<{ icon: any, label: string, active: boolean, onClick
 
 const DashboardOverview: React.FC = () => {
     const [stats, setStats] = useState<AdminStats | null>(null);
+    const [settings, setSettings] = useState<CompanySettings | null>(null);
 
     useEffect(() => {
         MockBackend.getStats().then(setStats);
+        MockBackend.getCompanySettings().then(setSettings);
     }, []);
 
     if (!stats) return <div className="text-slate-500">Loading stats...</div>;
+
+    const symbol = getCurrencySymbol(settings?.invoiceCurrency);
 
     const chartData = [
         { name: 'Mon', val: 400 }, { name: 'Tue', val: 300 }, { name: 'Wed', val: 600 },
@@ -87,7 +91,7 @@ const DashboardOverview: React.FC = () => {
             </header>
 
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                <StatCard label="Total Revenue" value={`€${stats.totalRevenue.toLocaleString()}`} trend="+12%" />
+                <StatCard label="Total Revenue" value={`${symbol}${stats.totalRevenue.toLocaleString()}`} trend="+12%" />
                 <StatCard label="Total Orders" value={stats.totalOrders.toString()} trend="+5%" />
                 <StatCard label="Active Users" value={stats.activeUsers.toString()} trend="+24%" />
                 <StatCard label="Conversion Rate" value={`${stats.conversionRate}%`} trend="+0.4%" />
@@ -106,7 +110,7 @@ const DashboardOverview: React.FC = () => {
                         <ResponsiveContainer width="100%" height="100%">
                             <BarChart data={chartData}>
                                 <XAxis dataKey="name" stroke="#94a3b8" fontSize={12} tickLine={false} axisLine={false} />
-                                <YAxis stroke="#94a3b8" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => `€${value}`} />
+                                <YAxis stroke="#94a3b8" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => `${symbol}${value}`} />
                                 <Tooltip
                                     contentStyle={{ backgroundColor: '#fff', borderColor: '#e2e8f0', borderRadius: '8px', color: '#0f172a', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
                                     itemStyle={{ color: '#0f172a', fontWeight: 'bold' }}
@@ -190,7 +194,7 @@ const OrdersManager: React.FC = () => {
                                     <div className="text-xs text-slate-500">{order.customerEmail}</div>
                                 </td>
                                 <td className="px-6 py-4 text-slate-600">{order.productName}</td>
-                                <td className="px-6 py-4 text-slate-900 font-medium">€{order.amount}</td>
+                                <td className="px-6 py-4 text-slate-900 font-medium">{getCurrencySymbol(order.currency)}{order.amount}</td>
                                 <td className="px-6 py-4">
                                     <StatusBadge status={order.status} />
                                 </td>
@@ -238,6 +242,11 @@ const CreateOrderModal: React.FC<{ onClose: () => void, onSave: () => void }> = 
     const [date, setDate] = useState(() => new Date().toISOString().split('T')[0]);
     const [time, setTime] = useState(() => new Date().toTimeString().slice(0, 5));
     const [loading, setLoading] = useState(false);
+    const [currencySymbol, setCurrencySymbol] = useState('€');
+
+    useEffect(() => {
+        MockBackend.getCompanySettings().then(s => setCurrencySymbol(getCurrencySymbol(s.invoiceCurrency)));
+    }, []);
 
     const handleCreate = async () => {
         if (!name || !email) {
@@ -318,7 +327,7 @@ const CreateOrderModal: React.FC<{ onClose: () => void, onSave: () => void }> = 
                                 className="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900 text-sm focus:outline-none focus:border-brand-teal focus:ring-1 focus:ring-brand-teal transition-colors"
                             >
                                 {PRODUCTS.map(p => (
-                                    <option key={p.id} value={p.id}>{p.name} (€{p.price})</option>
+                                    <option key={p.id} value={p.id}>{p.name} ({currencySymbol}{p.price})</option>
                                 ))}
                             </select>
                         </div>
@@ -530,9 +539,22 @@ const EditInvoiceModal: React.FC<{ order: Order, onClose: () => void, onSave: ()
                     {/* Section: Amounts */}
                     <div className="space-y-4 pt-4 border-t border-slate-100">
                         <h4 className="text-xs uppercase tracking-widest text-brand-teal font-bold">Amounts & Currency</h4>
+                        <div>
+                            <label className="block text-[10px] font-bold text-slate-500 mb-1 uppercase tracking-wider">Currency</label>
+                            <select
+                                value={invoice.currency}
+                                onChange={(e) => setInvoice({ ...invoice, currency: e.target.value })}
+                                className="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900 text-sm focus:outline-none focus:border-brand-teal focus:ring-1 focus:ring-brand-teal transition-colors"
+                            >
+                                {SUPPORTED_CURRENCIES.map(c => (
+                                    <option key={c.code} value={c.code}>{c.label}</option>
+                                ))}
+                            </select>
+                            <p className="text-[10px] text-slate-400 mt-1">Symbol on the invoice changes; amounts are not converted.</p>
+                        </div>
                         <div className="grid grid-cols-4 gap-4">
                             <Input
-                                label="Subtotal (€)"
+                                label={`Subtotal (${getCurrencySymbol(invoice.currency)})`}
                                 type="number"
                                 value={invoice.subtotal}
                                 onChange={(v) => {
@@ -548,7 +570,7 @@ const EditInvoiceModal: React.FC<{ order: Order, onClose: () => void, onSave: ()
                                 }}
                             />
                             <Input
-                                label="Discount (€)"
+                                label={`Discount (${getCurrencySymbol(invoice.currency)})`}
                                 type="number"
                                 value={invoice.discount || 0}
                                 onChange={(v) => {
@@ -564,7 +586,7 @@ const EditInvoiceModal: React.FC<{ order: Order, onClose: () => void, onSave: ()
                                 }}
                             />
                             <Input
-                                label="Tax (€)"
+                                label={`Tax (${getCurrencySymbol(invoice.currency)})`}
                                 type="number"
                                 value={invoice.tax}
                                 onChange={(v) => {
@@ -579,7 +601,7 @@ const EditInvoiceModal: React.FC<{ order: Order, onClose: () => void, onSave: ()
                                     });
                                 }}
                             />
-                            <Input label="Total (€)" type="number" value={invoice.total} disabled />
+                            <Input label={`Total (${getCurrencySymbol(invoice.currency)})`} type="number" value={invoice.total} disabled />
                         </div>
                     </div>
 
@@ -707,7 +729,7 @@ const InvoicesManager: React.FC = () => {
                         </div>
                         <div className="flex items-center gap-8">
                             <div className="text-right">
-                                <p className="text-brand-navy font-bold">€{inv.total.toFixed(2)}</p>
+                                <p className="text-brand-navy font-bold">{getCurrencySymbol(inv.currency)}{inv.total.toFixed(2)}</p>
                                 <p className="text-xs text-slate-500">{inv.billTo.name}</p>
                             </div>
                             <button
@@ -853,6 +875,19 @@ const SettingsView: React.FC = () => {
                     </div>
                     <div>
                         <Input label="Invoice Prefix" value={companySettings.invoicePrefix} onChange={(v) => updateCompany('invoicePrefix', v)} />
+                    </div>
+                    <div className="col-span-2">
+                        <label className="block text-[10px] font-bold text-slate-500 mb-1 uppercase tracking-wider">Invoice Currency</label>
+                        <select
+                            value={companySettings.invoiceCurrency}
+                            onChange={(e) => updateCompany('invoiceCurrency', e.target.value)}
+                            className="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900 text-sm focus:outline-none focus:border-brand-teal focus:ring-1 focus:ring-brand-teal transition-colors"
+                        >
+                            {SUPPORTED_CURRENCIES.map(c => (
+                                <option key={c.code} value={c.code}>{c.label}</option>
+                            ))}
+                        </select>
+                        <p className="text-[10px] text-slate-400 mt-1">Default currency for new invoices and orders. Existing invoices keep the currency they were created with (editable per-invoice). Symbol changes only — amounts are not converted.</p>
                     </div>
                     <div className="col-span-2">
                         <label className="block text-[10px] font-bold text-slate-500 mb-1 uppercase tracking-wider">Company Address</label>
