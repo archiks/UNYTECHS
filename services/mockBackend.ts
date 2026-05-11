@@ -455,8 +455,29 @@ export const MockBackend = {
     doc.text(companySettings.name, 20, leftY);
     leftY += 5;
     const companyAddr = doc.splitTextToSize(companySettings.address, 70);
-    doc.text(companyAddr, 20, leftY);
-    leftY += (companyAddr.length * 5);
+    const urlRegex = /(https?:\/\/[^\s)]+|www\.[^\s)]+)/i;
+    companyAddr.forEach((line: string) => {
+      const match = line.match(urlRegex);
+      if (match) {
+        const url = match[0];
+        const idx = match.index ?? 0;
+        const before = line.substring(0, idx);
+        const after = line.substring(idx + url.length);
+        const beforeWidth = before ? doc.getTextWidth(before) : 0;
+        const urlWidth = doc.getTextWidth(url);
+        const href = url.startsWith('http') ? url : `https://${url}`;
+
+        if (before) doc.text(before, 20, leftY);
+        doc.setTextColor(...brandTeal);
+        doc.text(url, 20 + beforeWidth, leftY);
+        doc.link(20 + beforeWidth, leftY - 4, urlWidth, 5, { url: href });
+        doc.setTextColor(...slateGray);
+        if (after) doc.text(after, 20 + beforeWidth + urlWidth, leftY);
+      } else {
+        doc.text(line, 20, leftY);
+      }
+      leftY += 5;
+    });
     doc.text(`VAT ID: ${companySettings.vatNumber}`, 20, leftY);
 
 
