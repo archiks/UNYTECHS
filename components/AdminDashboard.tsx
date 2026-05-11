@@ -235,6 +235,12 @@ const CreateOrderModal: React.FC<{ onClose: () => void, onSave: () => void }> = 
     const [address, setAddress] = useState('');
     const [country, setCountry] = useState('Germany');
     const [currency, setCurrency] = useState<string>('EUR');
+    const isUK = country === 'United Kingdom';
+
+    const handleCountryChange = (next: string) => {
+        setCountry(next);
+        setCurrency(next === 'United Kingdom' ? 'GBP' : 'EUR');
+    };
     // Default to current date and time
     const [date, setDate] = useState(() => new Date().toISOString().split('T')[0]);
     const [time, setTime] = useState(() => new Date().toTimeString().slice(0, 5));
@@ -300,7 +306,7 @@ const CreateOrderModal: React.FC<{ onClose: () => void, onSave: () => void }> = 
                             <label className="block text-[10px] font-bold text-slate-500 mb-1 uppercase tracking-wider">Country</label>
                             <select
                                 value={country}
-                                onChange={(e) => setCountry(e.target.value)}
+                                onChange={(e) => handleCountryChange(e.target.value)}
                                 className="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900 text-sm focus:outline-none focus:border-brand-teal focus:ring-1 focus:ring-brand-teal transition-colors"
                             >
                                 {COUNTRIES.map(c => <option key={c} value={c}>{c}</option>)}
@@ -313,7 +319,7 @@ const CreateOrderModal: React.FC<{ onClose: () => void, onSave: () => void }> = 
 
                     <div className="h-px bg-slate-100 my-4"></div>
 
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className={`grid ${isUK ? 'grid-cols-3' : 'grid-cols-2'} gap-4`}>
                         <div>
                             <label className="block text-[10px] font-bold text-slate-500 mb-1 uppercase tracking-wider">Product</label>
                             <select
@@ -326,6 +332,20 @@ const CreateOrderModal: React.FC<{ onClose: () => void, onSave: () => void }> = 
                                 ))}
                             </select>
                         </div>
+                        {isUK && (
+                            <div>
+                                <label className="block text-[10px] font-bold text-slate-500 mb-1 uppercase tracking-wider">Currency</label>
+                                <select
+                                    value={currency}
+                                    onChange={(e) => setCurrency(e.target.value)}
+                                    className="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900 text-sm focus:outline-none focus:border-brand-teal focus:ring-1 focus:ring-brand-teal transition-colors"
+                                >
+                                    {CURRENCIES.map(c => (
+                                        <option key={c.code} value={c.code}>{c.label}</option>
+                                    ))}
+                                </select>
+                            </div>
+                        )}
                         <div>
                             <label className="block text-[10px] font-bold text-slate-500 mb-1 uppercase tracking-wider">Status</label>
                             <select
@@ -336,18 +356,6 @@ const CreateOrderModal: React.FC<{ onClose: () => void, onSave: () => void }> = 
                                 <option value={OrderStatus.PENDING}>PENDING</option>
                                 <option value={OrderStatus.COMPLETED}>COMPLETED</option>
                                 <option value={OrderStatus.DOWNLOADED}>DOWNLOADED (Simulated)</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label className="block text-[10px] font-bold text-slate-500 mb-1 uppercase tracking-wider">Currency</label>
-                            <select
-                                value={currency}
-                                onChange={(e) => setCurrency(e.target.value)}
-                                className="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900 text-sm focus:outline-none focus:border-brand-teal focus:ring-1 focus:ring-brand-teal transition-colors"
-                            >
-                                {CURRENCIES.map(c => (
-                                    <option key={c.code} value={c.code}>{c.label}</option>
-                                ))}
                             </select>
                         </div>
                     </div>
@@ -517,7 +525,15 @@ const EditInvoiceModal: React.FC<{ order: Order, onClose: () => void, onSave: ()
                                 <label className="block text-[10px] font-bold text-slate-500 mb-1 uppercase tracking-wider">Country</label>
                                 <select
                                     value={invoice.billTo.country || ''}
-                                    onChange={(e) => setInvoice({ ...invoice, billTo: { ...invoice.billTo, country: e.target.value } })}
+                                    onChange={(e) => {
+                                        const nextCountry = e.target.value;
+                                        const nextCurrency = nextCountry === 'United Kingdom' ? 'GBP' : 'EUR';
+                                        setInvoice({
+                                            ...invoice,
+                                            currency: nextCurrency,
+                                            billTo: { ...invoice.billTo, country: nextCountry }
+                                        });
+                                    }}
                                     className="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900 text-sm focus:outline-none focus:border-brand-teal focus:ring-1 focus:ring-brand-teal transition-colors"
                                 >
                                     <option value="">Select Country...</option>
@@ -546,20 +562,22 @@ const EditInvoiceModal: React.FC<{ order: Order, onClose: () => void, onSave: ()
                     {/* Section: Amounts */}
                     <div className="space-y-4 pt-4 border-t border-slate-100">
                         <h4 className="text-xs uppercase tracking-widest text-brand-teal font-bold">Amounts & Currency</h4>
-                        <div className="grid grid-cols-2 gap-4">
-                            <div>
-                                <label className="block text-[10px] font-bold text-slate-500 mb-1 uppercase tracking-wider">Currency</label>
-                                <select
-                                    value={invoice.currency}
-                                    onChange={(e) => setInvoice({ ...invoice, currency: e.target.value })}
-                                    className="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900 text-sm focus:outline-none focus:border-brand-teal focus:ring-1 focus:ring-brand-teal transition-colors"
-                                >
-                                    {CURRENCIES.map(c => (
-                                        <option key={c.code} value={c.code}>{c.label}</option>
-                                    ))}
-                                </select>
+                        {invoice.billTo.country === 'United Kingdom' && (
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-[10px] font-bold text-slate-500 mb-1 uppercase tracking-wider">Currency</label>
+                                    <select
+                                        value={invoice.currency}
+                                        onChange={(e) => setInvoice({ ...invoice, currency: e.target.value })}
+                                        className="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900 text-sm focus:outline-none focus:border-brand-teal focus:ring-1 focus:ring-brand-teal transition-colors"
+                                    >
+                                        {CURRENCIES.map(c => (
+                                            <option key={c.code} value={c.code}>{c.label}</option>
+                                        ))}
+                                    </select>
+                                </div>
                             </div>
-                        </div>
+                        )}
                         <div className="grid grid-cols-4 gap-4">
                             <Input
                                 label={`Subtotal (${getCurrencySymbol(invoice.currency)})`}
