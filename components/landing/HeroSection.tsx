@@ -1,116 +1,132 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, CheckCircle } from 'lucide-react';
+import { ArrowRight, ChevronDown } from 'lucide-react';
 
 interface HeroSectionProps {
     onCtaClick: () => void;
 }
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ onCtaClick }) => {
+    const scrollToPrograms = () => {
+        const el = document.getElementById('programs');
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+    };
+
     return (
-        <section className="relative pt-32 pb-20 overflow-hidden bg-[#0a0a0c] min-h-[90vh] flex items-center">
-            {/* Background Effects */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,255,136,0.03)_0%,transparent_100%)] pointer-events-none" />
-            <div className="absolute top-0 w-full h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-brand-teal/10 via-[#0a0a0c] to-[#0a0a0c] pointer-events-none" />
-            <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-brand-teal/10 rounded-full blur-[120px] pointer-events-none animate-pulse" />
+        <section className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-brand-navy">
+            {/* Cinematic background — drop a /assets/hero.mp4 file here to enable video, otherwise the gradient renders */}
+            <video
+                className="absolute inset-0 w-full h-full object-cover opacity-40 pointer-events-none"
+                autoPlay
+                muted
+                loop
+                playsInline
+                poster="/assets/hero-poster.jpg"
+            >
+                <source src="/assets/hero.mp4" type="video/mp4" />
+            </video>
 
-            <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center relative z-10">
-                {/* Text Content */}
-                <div className="space-y-8 order-2 lg:order-2">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, ease: "easeOut" }}
-                        className="inline-flex items-center gap-2 px-4 py-2 bg-[#1d1d1f]/50 rounded-full border border-white/10 shadow-lg backdrop-blur-md relative overflow-hidden group"
-                    >
-                        <div className="absolute inset-0 bg-gradient-to-r from-brand-teal/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                        <span className="w-2 h-2 rounded-full bg-brand-teal animate-pulse drop-shadow-[0_0_8px_rgba(0,255,136,0.8)]" />
-                        <span className="text-xs font-bold tracking-wide uppercase text-white/90">Done-For-You Service</span>
-                    </motion.div>
+            {/* Layered gradients for depth when no video is present */}
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(212,175,55,0.18),transparent_55%)] pointer-events-none" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(114,47,55,0.28),transparent_60%)] pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-b from-brand-navy/30 via-brand-navy/60 to-brand-navy pointer-events-none" />
 
-                    <motion.h1
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
-                        className="text-5xl lg:text-7xl font-bold tracking-tight text-white leading-[1.1]"
-                    >
-                        The Ultimate <br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-teal via-[#00ff88] to-emerald-400 drop-shadow-lg">
-                            Ecommerce Engine.
-                        </span>
-                    </motion.h1>
+            {/* Film grain texture */}
+            <div className="absolute inset-0 bg-grain opacity-[0.18] mix-blend-overlay pointer-events-none" />
 
-                    <motion.p
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }}
-                        className="text-xl text-slate-400 max-w-lg leading-relaxed font-light"
-                    >
-                        Pro-level Shopify stores, engineered for scale. We design, build, and launch your brand so you can focus on growth.
-                    </motion.p>
+            {/* Subtle spotlight beam */}
+            <motion.div
+                aria-hidden
+                initial={{ opacity: 0 }}
+                animate={{ opacity: [0.25, 0.45, 0.25] }}
+                transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+                className="absolute top-0 left-1/2 -translate-x-1/2 w-[120%] h-[80%] bg-[conic-gradient(from_180deg_at_50%_0%,transparent_0deg,rgba(212,175,55,0.08)_15deg,transparent_30deg)] blur-2xl pointer-events-none"
+            />
 
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.6, duration: 0.8 }}
-                        className="space-y-4"
-                    >
-                        {['High-Converting Design', 'Mobile Optimized', 'Payment & Shipping Setup'].map((item, i) => (
-                            <motion.div 
-                                key={i} 
-                                initial={{ opacity: 0, x: -20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: 0.6 + (i * 0.1), duration: 0.5, ease: "easeOut" }}
-                                className="flex items-center gap-4 text-white font-medium bg-[#1d1d1f]/40 w-max px-4 py-2.5 rounded-xl border border-white/5 backdrop-blur-sm shadow-sm"
-                            >
-                                <CheckCircle className="w-5 h-5 text-brand-teal drop-shadow-[0_0_8px_rgba(0,255,136,0.5)]" />
-                                <span className="text-sm md:text-base tracking-wide">{item}</span>
-                            </motion.div>
-                        ))}
-                    </motion.div>
-
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.9, duration: 0.8, ease: "easeOut" }}
-                        className="flex flex-col sm:flex-row gap-4 pt-4"
-                    >
-                        <button
-                            onClick={onCtaClick}
-                            className="group relative px-8 py-4 bg-brand-teal text-black font-bold rounded-xl overflow-hidden shadow-[0_0_40px_rgba(0,230,118,0.3)] hover:shadow-[0_0_60px_rgba(0,230,118,0.5)] transition-all flex items-center justify-center gap-2"
-                        >
-                            <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
-                            <span className="relative z-10 flex items-center gap-2">View Our Packages <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" /></span>
-                        </button>
-                    </motion.div>
-                </div>
-
-                {/* Visual Image */}
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.4, duration: 1, ease: "easeOut" }}
-                    className="relative hidden lg:block order-1 lg:order-1"
+            <div className="relative z-10 max-w-6xl mx-auto px-6 pt-40 pb-24 text-center">
+                <motion.p
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.7, ease: 'easeOut' }}
+                    className="font-script text-brand-gold text-2xl md:text-3xl mb-6 tracking-wide"
                 >
-                    <motion.div 
-                        animate={{ y: [-10, 10, -10] }} 
-                        transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
-                        className="relative z-10"
+                    Move with purpose.
+                </motion.p>
+
+                <motion.h1
+                    initial={{ opacity: 0, y: 24 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.15, duration: 0.9, ease: 'easeOut' }}
+                    className="font-serif text-5xl md:text-7xl lg:text-8xl text-brand-cream leading-[1.05] tracking-tight mb-6"
+                >
+                    Master Your Movement.
+                    <br />
+                    <span className="italic text-brand-gold">One Session at a Time.</span>
+                </motion.h1>
+
+                <motion.p
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.35, duration: 0.8, ease: 'easeOut' }}
+                    className="text-lg md:text-xl text-brand-cream/70 max-w-2xl mx-auto leading-relaxed font-light mb-12"
+                >
+                    Personalised 1-on-1 dance coaching designed to transform beginners
+                    into confident performers — at your pace, on your floor.
+                </motion.p>
+
+                <motion.div
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.55, duration: 0.8, ease: 'easeOut' }}
+                    className="flex flex-col sm:flex-row justify-center gap-4"
+                >
+                    <button
+                        onClick={onCtaClick}
+                        className="group relative px-9 py-4 bg-brand-gold text-brand-navy font-bold tracking-wide rounded-full overflow-hidden shadow-[0_0_40px_rgba(212,175,55,0.25)] hover:shadow-[0_0_60px_rgba(212,175,55,0.45)] transition-all"
                     >
-                        {/* Glow Behind Image */}
-                        <div className="absolute inset-0 bg-brand-teal/20 blur-[100px] rounded-full scale-90" />
-                        
-                        <div className="relative rounded-2xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10 group bg-[#1d1d1f]">
-                            <div className="absolute inset-0 bg-gradient-to-tr from-brand-teal/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-20 pointer-events-none" />
-                            <img
-                                src="/assets/unytechs-hero.png"
-                                alt="UNYTECHS Store Mockup"
-                                className="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700 relative z-10"
-                            />
+                        <span className="relative z-10 flex items-center justify-center gap-2">
+                            Book Your Session
+                            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        </span>
+                    </button>
+                    <button
+                        onClick={scrollToPrograms}
+                        className="px-9 py-4 border border-brand-cream/30 text-brand-cream font-medium tracking-wide rounded-full hover:border-brand-gold hover:text-brand-gold transition-all backdrop-blur-sm"
+                    >
+                        Explore Programs
+                    </button>
+                </motion.div>
+
+                {/* Trust bar */}
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.95, duration: 1 }}
+                    className="mt-20 grid grid-cols-3 gap-4 max-w-3xl mx-auto border-t border-brand-cream/10 pt-8"
+                >
+                    {[
+                        { stat: '500+', label: 'Dancers Coached' },
+                        { stat: '12 yrs', label: 'Stage & Studio Experience' },
+                        { stat: '4 ', label: 'Continents Reached' },
+                    ].map((item, i) => (
+                        <div key={i} className="text-center">
+                            <div className="font-serif text-3xl md:text-4xl text-brand-cream tracking-tight">{item.stat}</div>
+                            <div className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-brand-cream/50 mt-1">{item.label}</div>
                         </div>
-                    </motion.div>
+                    ))}
                 </motion.div>
             </div>
+
+            {/* Scroll indicator */}
+            <motion.button
+                onClick={scrollToPrograms}
+                aria-label="Scroll to programs"
+                animate={{ y: [0, 8, 0] }}
+                transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
+                className="absolute bottom-8 left-1/2 -translate-x-1/2 text-brand-cream/50 hover:text-brand-gold transition-colors z-10"
+            >
+                <ChevronDown className="w-6 h-6" />
+            </motion.button>
         </section>
     );
 };

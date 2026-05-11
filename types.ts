@@ -8,6 +8,11 @@ export interface Product {
   level: number; // 1-4
   features: string[];
   chapters?: { title: string; points: string[] }[];
+  label?: string;          // e.g. "FOUNDATIONS", "STARTER", "PRO", "BESPOKE"
+  bestFor?: string;        // Short audience descriptor for landing card
+  ctaLabel?: string;       // Custom CTA label for landing card
+  featured?: boolean;      // Visually elevated card on landing page
+  customPricing?: boolean; // True for bespoke quotes — hides price, swaps CTA flow
 }
 
 export enum OrderStatus {

@@ -54,30 +54,30 @@ const DEFAULT_ORDERS: Order[] = [
   {
     id: 'ord_123',
     status: OrderStatus.COMPLETED,
-    productId: 'prod_4',
-    productName: 'Premium Shopify Store',
-    customerName: 'Marcus Aurelius',
-    customerEmail: 'marcus@rome.com',
-    amount: 1000,
-    currency: 'EUR',
-    tax: 200,
+    productId: 'prod_pro',
+    productName: 'Dancing Course Pro',
+    customerName: 'Amelia Bennett',
+    customerEmail: 'amelia@example.com',
+    amount: 2000,
+    currency: 'GBP',
+    tax: 400,
     createdAt: new Date(Date.now() - 86400000 * 2).toISOString(),
-    notes: 'VIP Client',
-    paymentMethod: 'PAYPAL',
-    transactionId: 'PAY-882731',
-    billingAddress: 'Palatine Hill 1\nRome, Empire',
-    billingCountry: 'Italy'
+    notes: 'Audition prep',
+    paymentMethod: 'STRIPE',
+    transactionId: 'ch_882731pro',
+    billingAddress: '12 Camden Mews\nLondon, NW1',
+    billingCountry: 'United Kingdom'
   },
   {
     id: 'ord_124',
     status: OrderStatus.PENDING,
-    productId: 'prod_2',
-    productName: 'Starter Shopify Store',
-    customerName: 'Lucius Verus',
-    customerEmail: 'lucius@rome.com',
-    amount: 250,
-    currency: 'EUR',
-    tax: 50,
+    productId: 'prod_foundations',
+    productName: 'Dance Course',
+    customerName: 'Jordan Reyes',
+    customerEmail: 'jordan@example.com',
+    amount: 1000,
+    currency: 'GBP',
+    tax: 200,
     createdAt: new Date(Date.now() - 3600000).toISOString(),
     notes: '',
     paymentMethod: 'MANUAL'
@@ -88,18 +88,18 @@ const DEFAULT_INVOICES: Invoice[] = [
   {
     id: 'inv_001',
     orderId: 'ord_123',
-    invoiceNumber: 'GS-2024-0001',
+    invoiceNumber: 'PWK-2026-0001',
     issueDate: new Date().toISOString(),
-    subtotal: 1000,
-    tax: 200,
-    total: 1200,
-    currency: 'EUR',
+    subtotal: 2000,
+    tax: 400,
+    total: 2400,
+    currency: 'GBP',
     status: 'PAID',
     billTo: {
-      name: 'Marcus Aurelius',
-      email: 'marcus@rome.com',
-      address: 'Palatine Hill 1\nRome, Empire',
-      country: 'Italy'
+      name: 'Amelia Bennett',
+      email: 'amelia@example.com',
+      address: '12 Camden Mews\nLondon, NW1',
+      country: 'United Kingdom'
     },
     pdfUrl: '#'
   }
@@ -109,7 +109,7 @@ const DEFAULT_LINKS: DownloadLink[] = [
   {
     id: 'dl_1',
     orderId: 'ord_123',
-    productName: 'Institutional Playbook',
+    productName: 'Dancing Course Pro — Session Pack',
     key: 'sec_829102',
     expiresAt: new Date(Date.now() + 86400000 * 30).toISOString(),
     maxDownloads: 5,
@@ -123,7 +123,7 @@ const DEFAULT_LOGS: AccessLog[] = [
   {
     id: 'log_1',
     linkId: 'dl_1',
-    resource: 'Institutional Playbook PDF',
+    resource: 'Dancing Course Pro — Welcome Pack PDF',
     timestamp: new Date().toISOString(),
     ip: getRandomIP(),
     deviceSig: getRandomDeviceSig()
@@ -133,13 +133,13 @@ const DEFAULT_LOGS: AccessLog[] = [
 
 
 const DEFAULT_COMPANY_SETTINGS: CompanySettings = {
-  name: 'POWKIDDY',
+  name: 'POWKIDDY LTD',
   email: 'info@powkiddy.io',
-  address: 'POWKIDDY Inc.\nEcommerce Division',
-  phone: '+1 (555) 123-4567',
+  address: 'POWKIDDY LTD\nFlat 23 Cavendish House, 6 Boulevard Drive\nLondon, England, NW9 5QG\nwww.powkiddy.io',
+  phone: '+44 (0)20 0000 0000',
   website: 'www.powkiddy.io',
-  footerText: 'Done-For-You Shopify Stores. Professional Development Services.',
-  vatNumber: 'US123456789',
+  footerText: 'POWKIDDY LTD · Company No. 15465273 · Premium 1-on-1 Dance Coaching',
+  vatNumber: 'GB · Company No. 15465273',
   invoicePrefix: 'PWK'
 };
 
@@ -336,9 +336,9 @@ export const MockBackend = {
 
     // 2. Setup PDF
     const doc = new jsPDF();
-    const brandNavy: [number, number, number] = [15, 23, 42];
-    const brandTeal: [number, number, number] = [20, 184, 166];
-    const brandLight: [number, number, number] = [241, 245, 249]; // slate-100
+    const brandNavy: [number, number, number] = [10, 10, 10];      // Midnight black
+    const brandTeal: [number, number, number] = [212, 175, 55];    // Champagne gold (token name kept)
+    const brandLight: [number, number, number] = [245, 240, 232];  // Cream
     const slateGray: [number, number, number] = [100, 116, 139];
     const currencySymbol = getCurrencySymbol(invoice.currency);
 
@@ -360,7 +360,7 @@ export const MockBackend = {
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(8);
     doc.setTextColor(...brandTeal);
-    doc.text("ECOMMERCE DEVELOPMENT", 20, 31);
+    doc.text("PREMIUM 1-ON-1 DANCE COACHING", 20, 31);
 
     // --- INVOICE LABEL ---
     doc.setFont('helvetica', 'bold');
@@ -488,7 +488,7 @@ export const MockBackend = {
 
     // Determine Product Name (find order to get product name)
     const order = orders.find(o => o.id === invoice.orderId);
-    const description = order ? order.productName : "Shopify Store Development Service";
+    const description = order ? order.productName : "Private 1-on-1 Dance Coaching Programme";
 
     // Layout configuration
     const descWidth = 80; // Reduced from 85 to give space to QTY
@@ -501,7 +501,7 @@ export const MockBackend = {
       startY: tableStartY,
       head: [['DESCRIPTION', 'TYPE', 'QTY', 'AMOUNT']],
       body: [
-        [description, 'Professional Service', '1', `${currencySymbol}${invoice.subtotal.toFixed(2)}`]
+        [description, 'Coaching Programme', '1', `${currencySymbol}${invoice.subtotal.toFixed(2)}`]
       ],
       theme: 'plain', // Cleaner look, no borders by default
       styles: {

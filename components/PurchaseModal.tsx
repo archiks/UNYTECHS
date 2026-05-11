@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Shield, X, Book, FileText, CreditCard, Calendar, Lock, User, CheckCircle } from 'lucide-react';
+import { Shield, X, Sparkles, FileText, CreditCard, Calendar, Lock, User, CheckCircle } from 'lucide-react';
 import { Product, OrderStatus } from '../types';
 import { MockBackend } from '../services/mockBackend';
 
@@ -13,7 +13,6 @@ export const PurchaseModal: React.FC<PurchaseModalProps> = ({ onClose, product }
     const [step, setStep] = useState<'PAYMENT' | 'INVOICE_INFO'>('PAYMENT');
     const [loading, setLoading] = useState(false);
 
-    // Card Form State
     const [cardName, setCardName] = useState('');
     const [cardNumber, setCardNumber] = useState('');
     const [expiry, setExpiry] = useState('');
@@ -23,25 +22,26 @@ export const PurchaseModal: React.FC<PurchaseModalProps> = ({ onClose, product }
         e.preventDefault();
         setLoading(true);
 
-        // Simulate API call to Stripe
         setTimeout(async () => {
             try {
-                // In a real app, this is where we'd confirm with Stripe
                 await MockBackend.createOrder(
                     product.id,
                     cardName,
-                    "customer@example.com", // Placeholder until we add email input or get from auth
+                    'student@example.com',
                     'STRIPE',
                     OrderStatus.COMPLETED,
-                    "123 Stripe St",
-                    "US"
+                    'Studio TBD',
+                    'United Kingdom',
+                    undefined,
+                    undefined,
+                    'GBP'
                 );
 
-                alert("Payment Successful! Access to your store will be sent to your email.");
+                alert('Payment received. We will be in touch within 24 hours to schedule your first session.');
                 onClose();
             } catch (error) {
-                console.error("Payment failed", error);
-                alert("Payment processing failed. Please try again.");
+                console.error('Payment failed', error);
+                alert('Payment processing failed. Please try again.');
             } finally {
                 setLoading(false);
             }
@@ -52,7 +52,6 @@ export const PurchaseModal: React.FC<PurchaseModalProps> = ({ onClose, product }
         setStep('INVOICE_INFO');
     };
 
-    // Formatters
     const handleCardNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value.replace(/\D/g, '').substring(0, 16);
         const parts = value.match(/[\s\S]{1,4}/g) || [];
@@ -72,64 +71,64 @@ export const PurchaseModal: React.FC<PurchaseModalProps> = ({ onClose, product }
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-brand-navy/85 backdrop-blur-md"
         >
             <motion.div
                 initial={{ scale: 0.95, opacity: 0, y: 20 }}
                 animate={{ scale: 1, opacity: 1, y: 0 }}
                 exit={{ scale: 0.95, opacity: 0, y: 20 }}
-                className="bg-[#1d1d1f] rounded-2xl shadow-[0_0_50px_rgba(0,0,0,0.8)] w-full max-w-md overflow-hidden border border-white/10 relative"
+                className="bg-brand-ink rounded-2xl shadow-[0_30px_80px_-10px_rgba(0,0,0,0.8)] w-full max-w-md overflow-hidden border border-brand-cream/10 relative"
             >
-                {/* Glow Effect */}
-                <div className="absolute -top-32 -right-32 w-64 h-64 bg-brand-teal/20 blur-[80px] rounded-full pointer-events-none" />
+                <div className="absolute -top-32 -right-32 w-64 h-64 bg-brand-gold/15 blur-[80px] rounded-full pointer-events-none" />
 
-                <div className="p-6 border-b border-white/10 flex justify-between items-center relative z-10">
+                <div className="p-6 border-b border-brand-cream/10 flex justify-between items-center relative z-10">
                     <div>
-                        <h3 className="text-xl font-bold text-white tracking-tight">Secure Checkout</h3>
-                        <p className="text-xs text-[#00ff88] flex items-center gap-1 font-medium mt-1"><Shield className="w-3 h-3" /> 256-bit SSL Encrypted</p>
+                        <h3 className="font-serif text-2xl text-brand-cream tracking-tight">Reserve Your Programme</h3>
+                        <p className="text-xs text-brand-gold flex items-center gap-1 font-medium mt-1">
+                            <Shield className="w-3 h-3" /> Stripe · 256-bit SSL
+                        </p>
                     </div>
-                    <button onClick={onClose} className="p-2 hover:bg-white/10 rounded-full transition-colors text-slate-400 hover:text-white">
+                    <button onClick={onClose} className="p-2 hover:bg-brand-cream/5 rounded-full transition-colors text-brand-cream/60 hover:text-brand-cream">
                         <X className="w-5 h-5" />
                     </button>
                 </div>
 
                 <div className="p-6 relative z-10">
-                    {/* Product Summary */}
-                    <div className="flex gap-4 p-4 bg-black/50 rounded-xl mb-6 border border-white/5 shadow-inner">
-                        <div className="w-16 h-20 bg-brand-navy border border-white/10 rounded-lg flex items-center justify-center shadow-md">
-                            <Book className="w-8 h-8 text-[#00ff88]" />
+                    {/* Programme Summary */}
+                    <div className="flex gap-4 p-4 bg-brand-navy/60 rounded-xl mb-6 border border-brand-cream/5 shadow-inner">
+                        <div className="w-16 h-20 bg-brand-navy border border-brand-gold/30 rounded-lg flex items-center justify-center shadow-md">
+                            <Sparkles className="w-7 h-7 text-brand-gold" strokeWidth={1.5} />
                         </div>
                         <div className="flex flex-col justify-center">
-                            <h4 className="font-bold text-white text-sm">{product.name}</h4>
-                            <p className="text-xs text-slate-400 mb-2 line-clamp-1">{product.tagline}</p>
-                            <span className="font-bold text-[#00ff88]">€{product.price}</span>
+                            <div className="text-[10px] uppercase tracking-[0.2em] text-brand-gold/80 mb-0.5">{product.label}</div>
+                            <h4 className="font-serif text-brand-cream text-base">{product.name}</h4>
+                            <p className="text-xs text-brand-cream/55 mb-2 line-clamp-1 italic">{product.tagline}</p>
+                            <span className="font-serif text-brand-gold text-lg">£{product.price.toLocaleString()}</span>
                         </div>
                     </div>
 
                     {step === 'PAYMENT' ? (
                         <div className="space-y-4">
                             <form onSubmit={handleCardPayment} className="space-y-4">
-                                {/* Name on Card */}
                                 <div>
-                                    <label className="block text-xs font-bold text-slate-400 mb-1 uppercase tracking-wide">Name on Card</label>
+                                    <label className="block text-[10px] font-bold text-brand-cream/50 mb-1 uppercase tracking-[0.2em]">Name on Card</label>
                                     <div className="relative">
-                                        <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
+                                        <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-brand-cream/40" />
                                         <input
                                             type="text"
                                             required
-                                            placeholder="John Doe"
+                                            placeholder="Your full name"
                                             value={cardName}
                                             onChange={(e) => setCardName(e.target.value)}
-                                            className="w-full pl-10 pr-4 py-3 bg-black/40 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#00ff88]/30 focus:border-[#00ff88] font-medium text-white placeholder:text-slate-600 transition-all shadow-inner"
+                                            className="w-full pl-10 pr-4 py-3 bg-brand-navy/60 border border-brand-cream/10 rounded-xl focus:outline-none focus:ring-1 focus:ring-brand-gold focus:border-brand-gold font-medium text-brand-cream placeholder:text-brand-cream/30 transition-all"
                                         />
                                     </div>
                                 </div>
 
-                                {/* Card Number */}
                                 <div>
-                                    <label className="block text-xs font-bold text-slate-400 mb-1 uppercase tracking-wide">Card Number</label>
+                                    <label className="block text-[10px] font-bold text-brand-cream/50 mb-1 uppercase tracking-[0.2em]">Card Number</label>
                                     <div className="relative">
-                                        <CreditCard className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
+                                        <CreditCard className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-brand-cream/40" />
                                         <input
                                             type="text"
                                             required
@@ -137,17 +136,16 @@ export const PurchaseModal: React.FC<PurchaseModalProps> = ({ onClose, product }
                                             value={cardNumber}
                                             onChange={handleCardNumberChange}
                                             maxLength={19}
-                                            className="w-full pl-10 pr-4 py-3 bg-black/40 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#00ff88]/30 focus:border-[#00ff88] font-medium text-white placeholder:text-slate-600 font-mono transition-all shadow-inner"
+                                            className="w-full pl-10 pr-4 py-3 bg-brand-navy/60 border border-brand-cream/10 rounded-xl focus:outline-none focus:ring-1 focus:ring-brand-gold focus:border-brand-gold font-medium text-brand-cream placeholder:text-brand-cream/30 font-mono transition-all"
                                         />
                                     </div>
                                 </div>
 
                                 <div className="grid grid-cols-2 gap-4">
-                                    {/* Expiry */}
                                     <div>
-                                        <label className="block text-xs font-bold text-slate-400 mb-1 uppercase tracking-wide">Expiry</label>
+                                        <label className="block text-[10px] font-bold text-brand-cream/50 mb-1 uppercase tracking-[0.2em]">Expiry</label>
                                         <div className="relative">
-                                            <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
+                                            <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-brand-cream/40" />
                                             <input
                                                 type="text"
                                                 required
@@ -155,16 +153,15 @@ export const PurchaseModal: React.FC<PurchaseModalProps> = ({ onClose, product }
                                                 value={expiry}
                                                 onChange={handleExpiryChange}
                                                 maxLength={5}
-                                                className="w-full pl-10 pr-4 py-3 bg-black/40 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#00ff88]/30 focus:border-[#00ff88] font-medium text-white placeholder:text-slate-600 font-mono transition-all shadow-inner"
+                                                className="w-full pl-10 pr-4 py-3 bg-brand-navy/60 border border-brand-cream/10 rounded-xl focus:outline-none focus:ring-1 focus:ring-brand-gold focus:border-brand-gold font-medium text-brand-cream placeholder:text-brand-cream/30 font-mono transition-all"
                                             />
                                         </div>
                                     </div>
 
-                                    {/* CVC */}
                                     <div>
-                                        <label className="block text-xs font-bold text-slate-400 mb-1 uppercase tracking-wide">CVC</label>
+                                        <label className="block text-[10px] font-bold text-brand-cream/50 mb-1 uppercase tracking-[0.2em]">CVC</label>
                                         <div className="relative">
-                                            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
+                                            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-brand-cream/40" />
                                             <input
                                                 type="text"
                                                 required
@@ -172,7 +169,7 @@ export const PurchaseModal: React.FC<PurchaseModalProps> = ({ onClose, product }
                                                 value={cvc}
                                                 onChange={(e) => setCvc(e.target.value.replace(/\D/g, '').substring(0, 4))}
                                                 maxLength={4}
-                                                className="w-full pl-10 pr-4 py-3 bg-black/40 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#00ff88]/30 focus:border-[#00ff88] font-medium text-white placeholder:text-slate-600 font-mono transition-all shadow-inner"
+                                                className="w-full pl-10 pr-4 py-3 bg-brand-navy/60 border border-brand-cream/10 rounded-xl focus:outline-none focus:ring-1 focus:ring-brand-gold focus:border-brand-gold font-medium text-brand-cream placeholder:text-brand-cream/30 font-mono transition-all"
                                             />
                                         </div>
                                     </div>
@@ -181,13 +178,13 @@ export const PurchaseModal: React.FC<PurchaseModalProps> = ({ onClose, product }
                                 <button
                                     type="submit"
                                     disabled={loading}
-                                    className="w-full py-4 mt-2 bg-brand-teal text-black font-bold rounded-xl hover:opacity-90 transition-all shadow-[0_0_20px_rgba(0,230,118,0.2)] flex items-center justify-center gap-2"
+                                    className="w-full py-4 mt-2 bg-brand-gold text-brand-navy font-bold rounded-xl hover:opacity-90 transition-all shadow-[0_0_30px_rgba(212,175,55,0.25)] flex items-center justify-center gap-2"
                                 >
                                     {loading ? (
                                         <>Processing...</>
                                     ) : (
                                         <>
-                                            <CheckCircle className="w-5 h-5" /> Pay €{product.price}
+                                            <CheckCircle className="w-5 h-5" /> Confirm £{product.price.toLocaleString()}
                                         </>
                                     )}
                                 </button>
@@ -195,37 +192,38 @@ export const PurchaseModal: React.FC<PurchaseModalProps> = ({ onClose, product }
 
                             <div className="relative py-4">
                                 <div className="absolute inset-0 flex items-center">
-                                    <div className="w-full border-t border-white/10"></div>
+                                    <div className="w-full border-t border-brand-cream/10"></div>
                                 </div>
-                                <div className="relative flex justify-center text-xs uppercase tracking-wider">
-                                    <span className="bg-[#1d1d1f] px-4 text-slate-500 font-bold">Or</span>
+                                <div className="relative flex justify-center text-xs uppercase tracking-[0.2em]">
+                                    <span className="bg-brand-ink px-4 text-brand-cream/40 font-bold">Or</span>
                                 </div>
                             </div>
 
                             <button
                                 onClick={handleInvoice}
                                 disabled={loading}
-                                className="w-full py-4 bg-transparent text-white font-bold rounded-xl border border-white/20 hover:border-brand-teal hover:bg-brand-teal/5 transition-all flex items-center justify-center gap-2"
+                                className="w-full py-4 bg-transparent text-brand-cream font-medium rounded-xl border border-brand-cream/20 hover:border-brand-gold hover:text-brand-gold transition-all flex items-center justify-center gap-2"
                             >
-                                <img src="/assets/paypal.png" alt="PayPal" className="h-5 w-auto" /> Request Invoice (B2B)
+                                <FileText className="w-4 h-4" /> Request Invoice (Bank Transfer)
                             </button>
                         </div>
                     ) : (
                         <div className="text-center py-6">
-                            <div className="w-20 h-20 bg-brand-teal/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-brand-teal/20 shadow-[0_0_30px_rgba(0,230,118,0.1)]">
-                                <FileText className="w-8 h-8 text-[#00ff88]" />
+                            <div className="w-20 h-20 bg-brand-gold/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-brand-gold/30">
+                                <FileText className="w-8 h-8 text-brand-gold" strokeWidth={1.5} />
                             </div>
-                            <h4 className="text-xl font-bold text-white mb-2">Request an Invoice</h4>
-                            <p className="text-sm text-slate-400 mb-8 px-4 leading-relaxed">
-                                For corporate orders and B2B invoicing, please contact our support team directly. We will process your order manually and issue an official invoice.
+                            <h4 className="font-serif text-2xl text-brand-cream mb-2">Request an Invoice</h4>
+                            <p className="text-sm text-brand-cream/60 mb-8 px-4 leading-relaxed">
+                                For bank transfer or B2B billing, drop me a line. I'll issue
+                                an official invoice and confirm your first session.
                             </p>
-                            <div className="p-4 bg-black/40 rounded-xl border border-white/10 mb-8 shadow-inner">
-                                <span className="block text-xs text-slate-500 uppercase font-bold tracking-wide mb-2">Contact Email</span>
-                                <span className="font-mono text-[#00ff88] font-bold text-lg select-all">info@unytechs.com</span>
+                            <div className="p-4 bg-brand-navy/60 rounded-xl border border-brand-cream/10 mb-8 shadow-inner">
+                                <span className="block text-[10px] text-brand-cream/40 uppercase font-bold tracking-[0.2em] mb-2">Contact</span>
+                                <span className="font-mono text-brand-gold font-bold text-lg select-all">info@powkiddy.io</span>
                             </div>
                             <button
                                 onClick={onClose}
-                                className="w-full py-4 bg-white/5 border border-white/10 text-white font-bold rounded-xl hover:bg-white/10 transition-all"
+                                className="w-full py-4 bg-brand-cream/5 border border-brand-cream/10 text-brand-cream font-medium rounded-xl hover:bg-brand-cream/10 transition-all"
                             >
                                 Go Back
                             </button>

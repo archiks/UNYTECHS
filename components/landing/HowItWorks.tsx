@@ -1,55 +1,66 @@
 import React from 'react';
-import { MousePointerClick, Hammer, Rocket } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { Phone, ClipboardCheck, Video, Sparkles } from 'lucide-react';
 
 export const HowItWorks: React.FC = () => {
     const steps = [
         {
-            icon: MousePointerClick,
-            title: "1. Select Architecture",
-            desc: "Choose the foundation that fits your goals. From streamlined setups to enterprise-grade builds."
+            icon: Phone,
+            title: 'Discovery Call',
+            desc: 'A relaxed 20-minute conversation. We get to know your goals, your story and the way you move.',
         },
         {
-            icon: Hammer,
-            title: "2. Precision Engineering",
-            desc: "Our engineers construct the theme, integrate products, and optimize the payment flow."
+            icon: ClipboardCheck,
+            title: 'Personalised Plan',
+            desc: 'A bespoke roadmap mapped to your timeline — technique, repertoire, and the moment you are training for.',
         },
         {
-            icon: Rocket,
-            title: "3. Ignite Growth",
-            desc: "Receive your keys. Your highly-optimized engine is ready to capture traffic and convert."
-        }
+            icon: Video,
+            title: 'Live Sessions',
+            desc: 'Private 1-on-1 sessions on Zoom or in-studio in London. Every detail watched, every step refined.',
+        },
+        {
+            icon: Sparkles,
+            title: 'Ongoing Support',
+            desc: 'Session replays, between-class feedback and direct access — so progress never pauses.',
+        },
     ];
 
     return (
-        <section className="bg-brand-navy py-24 relative border-y border-white/10">
-            <div className="max-w-7xl mx-auto px-6">
-                <div className="text-center mb-16">
-                    <h2 className="text-3xl font-bold text-white mb-4">The <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-teal to-[#00ff88]">Process</span></h2>
-                    <p className="text-slate-400">Your path to digital dominance in 3 streamlined steps.</p>
+        <section className="relative py-28 bg-brand-navy overflow-hidden">
+            <div className="absolute inset-0 bg-grain opacity-[0.06] pointer-events-none" />
+            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand-gold/30 to-transparent" />
+
+            <div className="max-w-7xl mx-auto px-6 relative">
+                <div className="text-center mb-20 max-w-2xl mx-auto">
+                    <p className="font-script text-brand-gold text-xl mb-3">The coaching experience</p>
+                    <h2 className="font-serif text-4xl md:text-5xl text-brand-cream tracking-tight leading-tight">
+                        A studio built around <span className="italic text-brand-gold">you</span>.
+                    </h2>
+                    <p className="text-brand-cream/60 mt-5 leading-relaxed">
+                        Coaching that pays attention. Every program is shaped to your body,
+                        your music and the version of yourself you are training toward.
+                    </p>
                 </div>
 
-                <div className="grid md:grid-cols-3 gap-12 relative">
-                    {/* Connecting Line (Desktop) */}
-                    <div className="hidden md:block absolute top-12 left-[16%] right-[16%] h-0.5 bg-gradient-to-r from-brand-teal/10 via-brand-teal/50 to-brand-teal/10" />
-
+                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                     {steps.map((step, i) => (
                         <motion.div
                             key={i}
-                            initial={{ opacity: 0, y: 20 }}
+                            initial={{ opacity: 0, y: 24 }}
                             whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: i * 0.2 }}
-                            className="relative flex flex-col items-center text-center"
+                            viewport={{ once: true, margin: '-80px' }}
+                            transition={{ delay: i * 0.12, duration: 0.7, ease: 'easeOut' }}
+                            className="group relative bg-brand-ink/60 backdrop-blur-sm border border-brand-cream/10 rounded-2xl p-7 hover:border-brand-gold/40 transition-all"
                         >
-                            <div className="w-24 h-24 rounded-2xl bg-brand-light border border-white/10 flex items-center justify-center mb-6 relative z-10 shadow-[0_0_30px_rgba(0,230,118,0.05)]">
-                                <step.icon className="w-10 h-10 text-brand-teal" />
-                                <div className="absolute -bottom-3 px-3 py-1 bg-black rounded-full text-xs font-bold text-brand-teal border border-brand-teal/30">
-                                    Phase {i + 1}
-                                </div>
+                            <div className="absolute -top-4 left-7 text-xs tracking-[0.25em] text-brand-gold/70 font-medium">
+                                0{i + 1}
                             </div>
-                            <h3 className="text-xl font-bold text-white mb-3">{step.title}</h3>
-                            <p className="text-slate-400 leading-relaxed max-w-xs">{step.desc}</p>
+                            <div className="w-14 h-14 rounded-full bg-brand-gold/10 border border-brand-gold/20 flex items-center justify-center mb-6 group-hover:bg-brand-gold/20 transition-colors">
+                                <step.icon className="w-6 h-6 text-brand-gold" strokeWidth={1.5} />
+                            </div>
+                            <h3 className="font-serif text-2xl text-brand-cream mb-3 tracking-tight">{step.title}</h3>
+                            <p className="text-brand-cream/60 text-sm leading-relaxed">{step.desc}</p>
                         </motion.div>
                     ))}
                 </div>

@@ -15,54 +15,120 @@ export const LandingPage: React.FC = () => {
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
     const handleBuy = (product: Product) => {
+        // Bespoke programs route to a mail-to inquiry instead of the checkout flow
+        if (product.customPricing) {
+            window.location.href = `mailto:info@powkiddy.io?subject=Custom%20Consultation%20Inquiry%20—%20${encodeURIComponent(product.name)}&body=Hi%20Kitija%2C%0A%0AI%27d%20love%20to%20discuss%20a%20custom%20program.%0A%0AWhat%20I%27m%20training%20for%3A%20%0ATimeline%3A%20%0AAnything%20else%3A%20%0A`;
+            return;
+        }
         setSelectedProduct(product);
         setShowPurchaseModal(true);
     };
 
-    const scrollToPricing = () => {
-        const pricingSection = document.getElementById('pricing');
-        if (pricingSection) {
-            pricingSection.scrollIntoView({ behavior: 'smooth' });
-        }
+    const scrollToPrograms = () => {
+        const el = document.getElementById('programs');
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
     };
 
     return (
-        <div className="bg-brand-navy text-white font-sans relative min-h-screen selection:bg-brand-teal selection:text-black">
+        <div className="bg-brand-navy text-brand-cream font-sans relative min-h-screen selection:bg-brand-gold selection:text-brand-navy">
 
-            <HeroSection onCtaClick={scrollToPricing} />
+            <HeroSection onCtaClick={scrollToPrograms} />
+
+            <Pricing onSelectPlan={handleBuy} />
 
             <HowItWorks />
 
             <WhatYouGet />
 
-            <Pricing onSelectPlan={handleBuy} />
-
             <WhyUs />
 
             <FAQ />
 
-            <CallToAction onCtaClick={scrollToPricing} />
+            <CallToAction onCtaClick={scrollToPrograms} />
 
             {/* FOOTER */}
-            <footer className="bg-[#1d1d1f] border-t border-white/10 py-16">
-                <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-8 items-center text-center md:text-left">
-                    <div>
-                        <p className="font-sans font-black text-2xl text-white tracking-tighter">POWKIDDY</p>
-                        <p className="text-slate-400 text-sm mt-2">Premium E-Commerce Engines.</p>
+            <footer className="bg-brand-ink border-t border-brand-cream/10 pt-20 pb-10">
+                <div className="max-w-7xl mx-auto px-6">
+                    <div className="grid md:grid-cols-4 gap-12 mb-16">
+                        <div className="md:col-span-2">
+                            <p className="font-serif font-bold text-3xl text-brand-cream tracking-tighter mb-2">
+                                POWKIDDY<span className="text-brand-gold">.</span>
+                            </p>
+                            <p className="font-script text-brand-gold text-xl mb-4">Move with purpose.</p>
+                            <p className="text-brand-cream/60 text-sm max-w-md leading-relaxed">
+                                Premium 1-on-1 dance coaching. Boutique studio meets digital
+                                mentorship — for dancers who want to be truly seen.
+                            </p>
+
+                            {/* Newsletter */}
+                            <form
+                                className="mt-8 flex max-w-md gap-2"
+                                onSubmit={(e) => {
+                                    e.preventDefault();
+                                    alert('Thank you — you are on the list.');
+                                }}
+                            >
+                                <input
+                                    type="email"
+                                    required
+                                    placeholder="Your email"
+                                    className="flex-1 bg-transparent border border-brand-cream/20 rounded-full px-5 py-2.5 text-sm text-brand-cream placeholder:text-brand-cream/40 focus:outline-none focus:border-brand-gold transition-colors"
+                                />
+                                <button
+                                    type="submit"
+                                    className="px-5 py-2.5 bg-brand-gold text-brand-navy rounded-full text-xs font-bold uppercase tracking-wider hover:opacity-90 transition-opacity"
+                                >
+                                    Join
+                                </button>
+                            </form>
+                            <p className="text-[10px] uppercase tracking-[0.2em] text-brand-cream/40 mt-3">
+                                Movement notes · Monthly insights
+                            </p>
+                        </div>
+
+                        <div>
+                            <h4 className="text-[10px] uppercase tracking-[0.25em] text-brand-gold mb-5">Studio</h4>
+                            <ul className="space-y-3 text-sm text-brand-cream/70">
+                                <li><a href="#programs" className="hover:text-brand-gold transition-colors">Programs</a></li>
+                                <li><a href="mailto:info@powkiddy.io" className="hover:text-brand-gold transition-colors">Book a Call</a></li>
+                                <li><a href="https://www.powkiddy.io" target="_blank" rel="noreferrer" className="hover:text-brand-gold transition-colors">www.powkiddy.io</a></li>
+                                <li><a href="mailto:info@powkiddy.io" className="hover:text-brand-gold transition-colors">info@powkiddy.io</a></li>
+                            </ul>
+                            <div className="flex gap-3 mt-6">
+                                <a href="#" aria-label="Instagram" className="w-9 h-9 rounded-full border border-brand-cream/20 flex items-center justify-center text-brand-cream/60 hover:border-brand-gold hover:text-brand-gold transition-all">
+                                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                                        <rect x="2" y="2" width="20" height="20" rx="5" />
+                                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 className="text-[10px] uppercase tracking-[0.25em] text-brand-gold mb-5">Registered Office</h4>
+                            <address className="not-italic text-sm text-brand-cream/70 leading-relaxed">
+                                POWKIDDY LTD<br />
+                                Flat 23 Cavendish House,<br />
+                                6 Boulevard Drive,<br />
+                                London, England, NW9 5QG<br />
+                                <span className="block mt-3 text-brand-cream/50 text-xs">
+                                    Company No. 15465273
+                                </span>
+                                <span className="block text-brand-cream/50 text-xs">
+                                    Owner: Kitija Jerfane
+                                </span>
+                            </address>
+                        </div>
                     </div>
-                    <div className="flex justify-center gap-6">
-                        <a href="#" className="text-slate-400 hover:text-[#00ff88] transition-colors">
-                            <span className="sr-only">Twitter</span>
-                            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg>
-                        </a>
-                        <a href="#" className="text-slate-400 hover:text-[#00ff88] transition-colors">
-                            <span className="sr-only">Instagram</span>
-                            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-                        </a>
-                    </div>
-                    <div className="md:text-right">
-                        <p className="text-slate-500 text-sm">© {new Date().getFullYear()} POWKIDDY. All rights reserved.</p>
-                        <p className="text-slate-500 text-sm mt-1">Contact: info@powkiddy.io</p>
+
+                    <div className="pt-8 border-t border-brand-cream/10 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-brand-cream/40">
+                        <p>© {new Date().getFullYear()} POWKIDDY LTD. All rights reserved.</p>
+                        <p className="flex gap-4">
+                            <a href="#" className="hover:text-brand-gold transition-colors">Privacy Policy</a>
+                            <span className="opacity-30">·</span>
+                            <a href="#" className="hover:text-brand-gold transition-colors">Terms & Conditions</a>
+                        </p>
                     </div>
                 </div>
             </footer>
