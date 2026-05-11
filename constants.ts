@@ -91,3 +91,13 @@ export const COUNTRIES = [
   "Spain", "Netherlands", "Switzerland", "Canada", "Australia",
   "Japan", "Singapore", "United Arab Emirates", "South Africa", "Norway"
 ];
+
+export const CURRENCIES: { code: string; symbol: string; label: string }[] = [
+  { code: 'EUR', symbol: '€', label: 'Euro (€)' },
+  { code: 'GBP', symbol: '£', label: 'British Pound (£)' }
+];
+
+export const getCurrencySymbol = (code?: string): string => {
+  const match = CURRENCIES.find(c => c.code === (code || '').toUpperCase());
+  return match ? match.symbol : '€';
+};

@@ -1,6 +1,6 @@
 
 import { Order, Invoice, AccessLog, OrderStatus, AdminStats, DownloadLink, InvoiceAuditTrail, CompanySettings } from '../types';
-import { PRODUCTS } from '../constants';
+import { PRODUCTS, getCurrencySymbol } from '../constants';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
@@ -166,7 +166,8 @@ export const MockBackend = {
     address?: string,
     country?: string,
     createdAt?: string,
-    accessTime?: string
+    accessTime?: string,
+    currency: string = 'EUR'
   ): Promise<Order> => {
     const product = PRODUCTS.find(p => p.id === productId);
     if (!product) throw new Error("Product not found");
@@ -181,7 +182,7 @@ export const MockBackend = {
       customerName: name,
       customerEmail: email,
       amount: product.price,
-      currency: 'EUR',
+      currency: currency,
       tax: product.price * 0.20, // 20% VAT simulation
       createdAt: orderDate,
       paymentMethod,
@@ -339,6 +340,7 @@ export const MockBackend = {
     const brandTeal: [number, number, number] = [20, 184, 166];
     const brandLight: [number, number, number] = [241, 245, 249]; // slate-100
     const slateGray: [number, number, number] = [100, 116, 139];
+    const currencySymbol = getCurrencySymbol(invoice.currency);
 
     // --- HEADER BACKGROUND ---
     doc.setFillColor(...brandLight);
@@ -478,7 +480,7 @@ export const MockBackend = {
       startY: tableStartY,
       head: [['DESCRIPTION', 'TYPE', 'QTY', 'AMOUNT']],
       body: [
-        [description, 'Professional Service', '1', `€${invoice.subtotal.toFixed(2)}`]
+        [description, 'Professional Service', '1', `${currencySymbol}${invoice.subtotal.toFixed(2)}`]
       ],
       theme: 'plain', // Cleaner look, no borders by default
       styles: {
@@ -553,14 +555,14 @@ export const MockBackend = {
     doc.setTextColor(...slateGray);
     doc.text(`Subtotal`, totalsX, finalY);
     doc.setTextColor(15, 23, 42);
-    doc.text(`€${invoice.subtotal.toFixed(2)}`, 190, finalY, { align: 'right' });
+    doc.text(`${currencySymbol}${invoice.subtotal.toFixed(2)}`, 190, finalY, { align: 'right' });
 
     // Discount (New)
     if (invoice.discount && invoice.discount > 0) {
       finalY += 6;
       doc.setTextColor(239, 68, 68); // Red for discount
       doc.text(`Discount`, totalsX, finalY);
-      doc.text(`-€${invoice.discount.toFixed(2)}`, 190, finalY, { align: 'right' });
+      doc.text(`-${currencySymbol}${invoice.discount.toFixed(2)}`, 190, finalY, { align: 'right' });
     }
 
     // VAT
@@ -568,7 +570,7 @@ export const MockBackend = {
     doc.setTextColor(...slateGray);
     doc.text(`VAT (20%)`, totalsX, finalY);
     doc.setTextColor(15, 23, 42);
-    doc.text(`€${invoice.tax.toFixed(2)}`, 190, finalY, { align: 'right' });
+    doc.text(`${currencySymbol}${invoice.tax.toFixed(2)}`, 190, finalY, { align: 'right' });
 
     // Divider Line
     finalY += 6;
@@ -583,7 +585,7 @@ export const MockBackend = {
     doc.text(`Total`, totalsX, finalY);
     // consistently use same dark color for amount
     doc.setTextColor(15, 23, 42);
-    doc.text(`€${invoice.total.toFixed(2)}`, 190, finalY, { align: 'right' });
+    doc.text(`${currencySymbol}${invoice.total.toFixed(2)}`, 190, finalY, { align: 'right' });
 
     // --- WEBSITE DELIVERED FIELD (Moved Below Totals) ---
     if (invoice.websiteUrl) {
