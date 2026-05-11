@@ -47,7 +47,7 @@ export const LandingPage: React.FC = () => {
             <footer className="bg-[#1d1d1f] border-t border-white/10 py-16">
                 <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-8 items-center text-center md:text-left">
                     <div>
-                        <p className="font-sans font-black text-2xl text-white tracking-tighter">UNYTECHS</p>
+                        <p className="font-sans font-black text-2xl text-white tracking-tighter">POWKIDDY</p>
                         <p className="text-slate-400 text-sm mt-2">Premium E-Commerce Engines.</p>
                     </div>
                     <div className="flex justify-center gap-6">
@@ -61,8 +61,8 @@ export const LandingPage: React.FC = () => {
                         </a>
                     </div>
                     <div className="md:text-right">
-                        <p className="text-slate-500 text-sm">© {new Date().getFullYear()} UNYTECHS. All rights reserved.</p>
-                        <p className="text-slate-500 text-sm mt-1">Contact: info@unytechs.com</p>
+                        <p className="text-slate-500 text-sm">© {new Date().getFullYear()} POWKIDDY. All rights reserved.</p>
+                        <p className="text-slate-500 text-sm mt-1">Contact: info@powkiddy.io</p>
                     </div>
                 </div>
             </footer>

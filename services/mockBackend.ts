@@ -133,14 +133,14 @@ const DEFAULT_LOGS: AccessLog[] = [
 
 
 const DEFAULT_COMPANY_SETTINGS: CompanySettings = {
-  name: 'UNYTECHS',
-  email: 'info@unytechs.com',
-  address: 'UNYTECHS Inc.\nEcommerce Division',
+  name: 'POWKIDDY',
+  email: 'info@powkiddy.io',
+  address: 'POWKIDDY Inc.\nEcommerce Division',
   phone: '+1 (555) 123-4567',
-  website: 'unytechs.com',
+  website: 'www.powkiddy.io',
   footerText: 'Done-For-You Shopify Stores. Professional Development Services.',
   vatNumber: 'US123456789',
-  invoicePrefix: 'UNY'
+  invoicePrefix: 'PWK'
 };
 
 // --- INITIALIZE STATE FROM STORAGE OR DEFAULTS ---
@@ -353,8 +353,8 @@ export const MockBackend = {
     doc.setFontSize(20);
     doc.setFont('helvetica', 'bold');
     doc.setTextColor(15, 23, 42); // slate-900
-    // UNYTECHS header
-    doc.text("UNYTECHS", 20, 25);
+    // POWKIDDY header
+    doc.text("POWKIDDY", 20, 25);
 
     // Website tagline
     doc.setFont('helvetica', 'normal');
@@ -730,7 +730,7 @@ export const MockBackend = {
     doc.setFontSize(10);
     doc.setFont('helvetica', 'bold');
     // Footer
-    doc.text("© 2026 UNYTECHS", 20, 270);
+    doc.text("© 2026 POWKIDDY", 20, 270);
 
     return doc.output('blob');
   },
