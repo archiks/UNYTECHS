@@ -4,7 +4,7 @@ import { Product } from './types';
 export const PRODUCTS: Product[] = [
   {
     id: 'prod_starter',
-    name: 'Unytechs Launch',
+    name: 'Powkiddy Launch',
     price: 250,
     level: 1,
     tagline: 'Perfect for first-time merchants.',
@@ -20,7 +20,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'prod_growth',
-    name: 'Unytechs Scale',
+    name: 'Powkiddy Scale',
     price: 500,
     level: 2,
     tagline: 'Designed for scaling and ads.',
@@ -37,7 +37,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'prod_premium',
-    name: 'Unytechs Pro',
+    name: 'Powkiddy Pro',
     price: 1000,
     level: 3,
     tagline: 'The ultimate brand dominance package.',
