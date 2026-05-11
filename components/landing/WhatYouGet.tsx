@@ -1,97 +1,74 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Award, MapPin, Music2 } from 'lucide-react';
+import { Check, Zap, Smartphone, CreditCard, Layout, Box } from 'lucide-react';
 
 export const WhatYouGet: React.FC = () => {
+    const features = [
+        { icon: Layout, title: "Premium Theme Setup", desc: "A professional, high-converting design tailored to your niche." },
+        { icon: Box, title: "Product Uploads", desc: "We add your initial products with optimized titles and descriptions." },
+        { icon: Smartphone, title: "Mobile Optimization", desc: "100% responsive design that looks perfect on every device." },
+        { icon: CreditCard, title: "Payment Gateways", desc: "Stripe, PayPal, and other payment processors fully configured." },
+        { icon: Zap, title: "Speed Optimization", desc: "Fast loading times to ensure customers don't bounce." },
+        { icon: Check, title: "Legal Pages", desc: "Privacy Policy, Terms of Service, and Refund Policy included." }
+    ];
+
     return (
-        <section className="relative py-28 bg-brand-cream overflow-hidden">
-            <div className="absolute inset-0 bg-grain opacity-[0.04] pointer-events-none" />
+        <section className="py-24 bg-black overflow-hidden relative">
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-brand-teal/5 via-black to-black pointer-events-none" />
+            <div className="max-w-7xl mx-auto px-6 relative z-10">
+                <div className="grid lg:grid-cols-2 gap-16 items-center">
+                    {/* Left - Content */}
+                    <div className="order-2 lg:order-1">
+                        <h2 className="text-3xl font-bold text-white mb-6">Everything You Need to <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-teal to-[#00ff88]">Scale</span></h2>
+                        <p className="text-slate-400 text-lg mb-8 leading-relaxed">
+                            We don't just build a website; we build a business asset. Every store includes the essential features required to run a successful e-commerce brand.
+                        </p>
 
-            <div className="relative max-w-7xl mx-auto px-6">
-                <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-                    {/* Editorial portrait — drop /assets/coach.jpg into public for the real photo */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.96 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true, margin: '-80px' }}
-                        transition={{ duration: 0.9, ease: 'easeOut' }}
-                        className="lg:col-span-5 relative"
-                    >
-                        <div className="relative aspect-[4/5] rounded-sm overflow-hidden shadow-[0_30px_80px_-20px_rgba(10,10,10,0.4)]">
-                            <img
-                                src="/assets/coach.jpg"
-                                alt="Kitija Jerfane, founder & lead coach"
-                                className="w-full h-full object-cover"
-                                onError={(e) => {
-                                    (e.currentTarget as HTMLImageElement).style.display = 'none';
-                                }}
-                            />
-                            {/* Fallback gradient portrait if image is missing */}
-                            <div className="absolute inset-0 -z-10 bg-gradient-to-br from-brand-wine via-brand-navy to-brand-ink flex items-center justify-center">
-                                <span className="font-serif text-[180px] text-brand-gold/30 italic leading-none">K</span>
-                            </div>
-                            <div className="absolute inset-0 ring-1 ring-inset ring-brand-navy/10 pointer-events-none" />
-                        </div>
-
-                        {/* Caption plaque */}
-                        <div className="absolute -bottom-6 -right-4 md:-right-8 bg-brand-navy text-brand-cream px-6 py-4 rounded-sm shadow-xl max-w-[80%]">
-                            <div className="text-[10px] uppercase tracking-[0.25em] text-brand-gold mb-1">Founder & Coach</div>
-                            <div className="font-serif text-2xl tracking-tight">Kitija Jerfane</div>
-                        </div>
-                    </motion.div>
-
-                    {/* Editorial copy */}
-                    <div className="lg:col-span-7">
-                        <p className="font-script text-brand-wine text-2xl mb-3">About your coach</p>
-                        <h2 className="font-serif text-4xl md:text-5xl text-brand-navy tracking-tight leading-[1.1] mb-8">
-                            Coaching is a conversation. <br />
-                            <span className="italic text-brand-wine">Yours starts here.</span>
-                        </h2>
-
-                        <div className="space-y-5 text-brand-navy/75 leading-relaxed text-lg">
-                            <p>
-                                I've spent the last twelve years on stages, in studios and on
-                                wedding floors — coaching dancers who arrive uncertain and leave
-                                with something to say.
-                            </p>
-                            <p>
-                                My approach is unhurried and exact. We work in private, we work
-                                slowly, and we work toward the version of yourself you can only
-                                find one session at a time.
-                            </p>
-                        </div>
-
-                        <blockquote className="my-10 pl-6 border-l-2 border-brand-gold">
-                            <p className="font-script text-3xl text-brand-wine leading-tight">
-                                "Technique is a language. I'll teach you the alphabet, then
-                                help you write your own sentence."
-                            </p>
-                            <footer className="mt-3 text-sm uppercase tracking-[0.2em] text-brand-navy/50">
-                                — Kitija
-                            </footer>
-                        </blockquote>
-
-                        <div className="grid sm:grid-cols-3 gap-6 pt-6 border-t border-brand-navy/10">
-                            {[
-                                { icon: Award, label: 'Certified Coach', value: 'IDTA & ISTD' },
-                                { icon: MapPin, label: 'Based In', value: 'London, UK' },
-                                { icon: Music2, label: 'Styles', value: 'Ballroom · Latin · Contemporary' },
-                            ].map((item, i) => (
+                        <div className="grid sm:grid-cols-2 gap-6">
+                            {features.map((feature, i) => (
                                 <motion.div
                                     key={i}
-                                    initial={{ opacity: 0, y: 12 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
+                                    initial={{ opacity: 0, x: -20 }}
+                                    whileInView={{ opacity: 1, x: 0 }}
                                     viewport={{ once: true }}
-                                    transition={{ delay: i * 0.1, duration: 0.5 }}
-                                    className="flex flex-col gap-1"
+                                    transition={{ delay: i * 0.1 }}
+                                    className="flex gap-4"
                                 >
-                                    <item.icon className="w-5 h-5 text-brand-gold mb-2" strokeWidth={1.5} />
-                                    <div className="text-[10px] uppercase tracking-[0.2em] text-brand-navy/50">{item.label}</div>
-                                    <div className="font-serif text-brand-navy text-base">{item.value}</div>
+                                    <div className="w-10 h-10 rounded-lg bg-brand-light flex items-center justify-center shrink-0 border border-white/10 shadow-[0_0_15px_rgba(0,230,118,0.1)]">
+                                        <feature.icon className="w-5 h-5 text-brand-teal" />
+                                    </div>
+                                    <div>
+                                        <h4 className="font-bold text-white text-sm">{feature.title}</h4>
+                                        <p className="text-xs text-slate-400 mt-1">{feature.desc}</p>
+                                    </div>
                                 </motion.div>
                             ))}
                         </div>
                     </div>
+
+                    {/* Right - Image */}
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        className="order-1 lg:order-2 relative"
+                    >
+                        <div className="absolute inset-0 bg-gradient-to-r from-brand-teal/10 to-[#00ff88]/10 blur-[100px] rounded-full pointer-events-none" />
+                        
+                        <div className="relative rounded-2xl overflow-hidden shadow-[0_0_50px_rgba(0,230,118,0.1)] border border-white/10 bg-[#1d1d1f]">
+                            {/* Shopify Partner Badge */}
+                            <div className="absolute top-4 left-4 z-20 bg-black/80 backdrop-blur-md border border-white/10 rounded-full px-4 py-2 flex items-center gap-2 shadow-lg">
+                                <div className="w-2 h-2 rounded-full bg-[#00ff88] animate-pulse" />
+                                <span className="text-white text-xs font-bold tracking-wide">Shopify Partner Integration</span>
+                            </div>
+
+                            <img
+                                src="/assets/unytechs-store.png"
+                                alt="UNYTECHS Shopify Store Mockup"
+                                className="w-full h-auto object-cover hover:scale-105 transition-transform duration-700"
+                            />
+                        </div>
+                    </motion.div>
                 </div>
             </div>
         </section>

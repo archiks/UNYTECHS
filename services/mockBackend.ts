@@ -54,30 +54,30 @@ const DEFAULT_ORDERS: Order[] = [
   {
     id: 'ord_123',
     status: OrderStatus.COMPLETED,
-    productId: 'prod_pro',
-    productName: 'Dancing Course Pro',
-    customerName: 'Amelia Bennett',
-    customerEmail: 'amelia@example.com',
-    amount: 2000,
-    currency: 'GBP',
-    tax: 400,
+    productId: 'prod_4',
+    productName: 'Premium Shopify Store',
+    customerName: 'Marcus Aurelius',
+    customerEmail: 'marcus@rome.com',
+    amount: 1000,
+    currency: 'EUR',
+    tax: 200,
     createdAt: new Date(Date.now() - 86400000 * 2).toISOString(),
-    notes: 'Audition prep',
-    paymentMethod: 'STRIPE',
-    transactionId: 'ch_882731pro',
-    billingAddress: '12 Camden Mews\nLondon, NW1',
-    billingCountry: 'United Kingdom'
+    notes: 'VIP Client',
+    paymentMethod: 'PAYPAL',
+    transactionId: 'PAY-882731',
+    billingAddress: 'Palatine Hill 1\nRome, Empire',
+    billingCountry: 'Italy'
   },
   {
     id: 'ord_124',
     status: OrderStatus.PENDING,
-    productId: 'prod_foundations',
-    productName: 'Dance Course',
-    customerName: 'Jordan Reyes',
-    customerEmail: 'jordan@example.com',
-    amount: 1000,
-    currency: 'GBP',
-    tax: 200,
+    productId: 'prod_2',
+    productName: 'Starter Shopify Store',
+    customerName: 'Lucius Verus',
+    customerEmail: 'lucius@rome.com',
+    amount: 250,
+    currency: 'EUR',
+    tax: 50,
     createdAt: new Date(Date.now() - 3600000).toISOString(),
     notes: '',
     paymentMethod: 'MANUAL'
@@ -88,18 +88,18 @@ const DEFAULT_INVOICES: Invoice[] = [
   {
     id: 'inv_001',
     orderId: 'ord_123',
-    invoiceNumber: 'PWK-2026-0001',
+    invoiceNumber: 'GS-2024-0001',
     issueDate: new Date().toISOString(),
-    subtotal: 2000,
-    tax: 400,
-    total: 2400,
-    currency: 'GBP',
+    subtotal: 1000,
+    tax: 200,
+    total: 1200,
+    currency: 'EUR',
     status: 'PAID',
     billTo: {
-      name: 'Amelia Bennett',
-      email: 'amelia@example.com',
-      address: '12 Camden Mews\nLondon, NW1',
-      country: 'United Kingdom'
+      name: 'Marcus Aurelius',
+      email: 'marcus@rome.com',
+      address: 'Palatine Hill 1\nRome, Empire',
+      country: 'Italy'
     },
     pdfUrl: '#'
   }
@@ -109,7 +109,7 @@ const DEFAULT_LINKS: DownloadLink[] = [
   {
     id: 'dl_1',
     orderId: 'ord_123',
-    productName: 'Dancing Course Pro — Session Pack',
+    productName: 'Institutional Playbook',
     key: 'sec_829102',
     expiresAt: new Date(Date.now() + 86400000 * 30).toISOString(),
     maxDownloads: 5,
@@ -123,7 +123,7 @@ const DEFAULT_LOGS: AccessLog[] = [
   {
     id: 'log_1',
     linkId: 'dl_1',
-    resource: 'Dancing Course Pro — Welcome Pack PDF',
+    resource: 'Institutional Playbook PDF',
     timestamp: new Date().toISOString(),
     ip: getRandomIP(),
     deviceSig: getRandomDeviceSig()
@@ -133,14 +133,14 @@ const DEFAULT_LOGS: AccessLog[] = [
 
 
 const DEFAULT_COMPANY_SETTINGS: CompanySettings = {
-  name: 'POWKIDDY LTD',
-  email: 'info@powkiddy.io',
-  address: 'POWKIDDY LTD\nFlat 23 Cavendish House, 6 Boulevard Drive\nLondon, England, NW9 5QG\nwww.powkiddy.io',
-  phone: '+44 (0)20 0000 0000',
-  website: 'www.powkiddy.io',
-  footerText: 'POWKIDDY LTD · Company No. 15465273 · Premium 1-on-1 Dance Coaching',
-  vatNumber: 'GB · Company No. 15465273',
-  invoicePrefix: 'PWK'
+  name: 'UNYTECHS',
+  email: 'info@unytechs.com',
+  address: 'UNYTECHS Inc.\nEcommerce Division',
+  phone: '+1 (555) 123-4567',
+  website: 'unytechs.com',
+  footerText: 'Done-For-You Shopify Stores. Professional Development Services.',
+  vatNumber: 'US123456789',
+  invoicePrefix: 'UNY'
 };
 
 // --- INITIALIZE STATE FROM STORAGE OR DEFAULTS ---
@@ -336,9 +336,9 @@ export const MockBackend = {
 
     // 2. Setup PDF
     const doc = new jsPDF();
-    const brandNavy: [number, number, number] = [10, 10, 10];      // Midnight black
-    const brandTeal: [number, number, number] = [212, 175, 55];    // Champagne gold (token name kept)
-    const brandLight: [number, number, number] = [245, 240, 232];  // Cream
+    const brandNavy: [number, number, number] = [15, 23, 42];
+    const brandTeal: [number, number, number] = [20, 184, 166];
+    const brandLight: [number, number, number] = [241, 245, 249]; // slate-100
     const slateGray: [number, number, number] = [100, 116, 139];
     const currencySymbol = getCurrencySymbol(invoice.currency);
 
@@ -353,14 +353,14 @@ export const MockBackend = {
     doc.setFontSize(20);
     doc.setFont('helvetica', 'bold');
     doc.setTextColor(15, 23, 42); // slate-900
-    // POWKIDDY header
-    doc.text("POWKIDDY", 20, 25);
+    // UNYTECHS header
+    doc.text("UNYTECHS", 20, 25);
 
     // Website tagline
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(8);
     doc.setTextColor(...brandTeal);
-    doc.text("PREMIUM 1-ON-1 DANCE COACHING", 20, 31);
+    doc.text("ECOMMERCE DEVELOPMENT", 20, 31);
 
     // --- INVOICE LABEL ---
     doc.setFont('helvetica', 'bold');
@@ -455,29 +455,8 @@ export const MockBackend = {
     doc.text(companySettings.name, 20, leftY);
     leftY += 5;
     const companyAddr = doc.splitTextToSize(companySettings.address, 70);
-    const urlRegex = /(https?:\/\/[^\s)]+|www\.[^\s)]+)/i;
-    companyAddr.forEach((line: string) => {
-      const match = line.match(urlRegex);
-      if (match) {
-        const url = match[0];
-        const idx = match.index ?? 0;
-        const before = line.substring(0, idx);
-        const after = line.substring(idx + url.length);
-        const beforeWidth = before ? doc.getTextWidth(before) : 0;
-        const urlWidth = doc.getTextWidth(url);
-        const href = url.startsWith('http') ? url : `https://${url}`;
-
-        if (before) doc.text(before, 20, leftY);
-        doc.setTextColor(...brandTeal);
-        doc.text(url, 20 + beforeWidth, leftY);
-        doc.link(20 + beforeWidth, leftY - 4, urlWidth, 5, { url: href });
-        doc.setTextColor(...slateGray);
-        if (after) doc.text(after, 20 + beforeWidth + urlWidth, leftY);
-      } else {
-        doc.text(line, 20, leftY);
-      }
-      leftY += 5;
-    });
+    doc.text(companyAddr, 20, leftY);
+    leftY += (companyAddr.length * 5);
     doc.text(`VAT ID: ${companySettings.vatNumber}`, 20, leftY);
 
 
@@ -488,7 +467,7 @@ export const MockBackend = {
 
     // Determine Product Name (find order to get product name)
     const order = orders.find(o => o.id === invoice.orderId);
-    const description = order ? order.productName : "Private 1-on-1 Dance Coaching Programme";
+    const description = order ? order.productName : "Shopify Store Development Service";
 
     // Layout configuration
     const descWidth = 80; // Reduced from 85 to give space to QTY
@@ -501,7 +480,7 @@ export const MockBackend = {
       startY: tableStartY,
       head: [['DESCRIPTION', 'TYPE', 'QTY', 'AMOUNT']],
       body: [
-        [description, 'Coaching Programme', '1', `${currencySymbol}${invoice.subtotal.toFixed(2)}`]
+        [description, 'Professional Service', '1', `${currencySymbol}${invoice.subtotal.toFixed(2)}`]
       ],
       theme: 'plain', // Cleaner look, no borders by default
       styles: {
@@ -751,7 +730,7 @@ export const MockBackend = {
     doc.setFontSize(10);
     doc.setFont('helvetica', 'bold');
     // Footer
-    doc.text("© 2026 POWKIDDY", 20, 270);
+    doc.text("© 2026 UNYTECHS", 20, 270);
 
     return doc.output('blob');
   },

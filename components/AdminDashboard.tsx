@@ -16,7 +16,7 @@ export const AdminDashboard: React.FC = () => {
             {/* Sidebar */}
             <aside className="w-64 border-r border-slate-200 bg-slate-50 flex flex-col">
                 <div className="p-6 border-b border-slate-200">
-                    <h1 className="font-bold text-lg text-brand-navy leading-tight">POWKIDDY<span className="text-brand-teal">.</span></h1>
+                    <h1 className="font-bold text-lg text-brand-navy leading-tight">UNYTECHS<span className="text-brand-teal">.</span></h1>
                     <span className="text-[10px] text-slate-500 uppercase tracking-widest mt-1 block">Institutional Admin</span>
                 </div>
 

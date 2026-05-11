@@ -1,85 +1,63 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Quote } from 'lucide-react';
-import { TESTIMONIALS } from '../../constants';
+import React from 'react';
+import { motion } from 'framer-motion';
+import { ShieldCheck, XCircle, Code2 } from 'lucide-react';
 
 export const WhyUs: React.FC = () => {
-    const [active, setActive] = useState(0);
-    const total = TESTIMONIALS.length;
-
-    const prev = () => setActive((a) => (a - 1 + total) % total);
-    const next = () => setActive((a) => (a + 1) % total);
-
-    const current = TESTIMONIALS[active];
-
     return (
-        <section className="relative py-28 bg-brand-navy overflow-hidden">
-            <div className="absolute inset-0 bg-grain opacity-[0.05] pointer-events-none" />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60%] h-[60%] bg-[radial-gradient(ellipse_at_center,rgba(114,47,55,0.25),transparent_70%)] pointer-events-none" />
+        <section className="py-24 bg-brand-navy border-y border-white/10">
+            <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
+                <div>
+                    <h2 className="text-3xl font-bold text-white mb-6">This is <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-teal to-[#00ff88]">NOT</span> a Course.</h2>
+                    <p className="text-slate-400 text-lg mb-6 leading-relaxed">
+                        Most "gurus" sell you a PDF and leave you to figure it out. We don't do that. We are a development agency that builds the asset for you.
+                    </p>
+                    <p className="text-slate-400 text-lg mb-8 leading-relaxed">
+                        You walk away with a fully functional, professional business—not just "knowledge."
+                    </p>
 
-            <div className="relative max-w-4xl mx-auto px-6 text-center">
-                <p className="font-script text-brand-gold text-xl mb-3">In their words</p>
-                <h2 className="font-serif text-4xl md:text-5xl text-brand-cream tracking-tight leading-tight mb-16">
-                    Where they started.
-                    <br />
-                    <span className="italic text-brand-gold">Where they are now.</span>
-                </h2>
+                    <div className="space-y-4">
+                        {[
+                            { icon: XCircle, text: "No DIY website builders or templates you have to edit.", color: "text-red-500" },
+                            { icon: XCircle, text: "No guessing which apps to install.", color: "text-red-500" },
+                            { icon: ShieldCheck, text: "100% Done-For-You Execution.", color: "text-brand-teal" },
+                            { icon: Code2, text: "Custom code and optimizations included.", color: "text-[#00ff88]" }
+                        ].map((item, i) => (
+                            <div key={i} className="flex items-center gap-4 p-4 rounded-xl bg-[#1d1d1f] border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+                                <item.icon className={`w-6 h-6 ${item.color}`} />
+                                <span className="text-white font-medium">{item.text}</span>
+                            </div>
+                        ))}
+                    </div>
+                </div>
 
                 <div className="relative">
-                    <Quote className="w-12 h-12 text-brand-gold/30 mx-auto mb-8" strokeWidth={1} />
-
-                    <AnimatePresence mode="wait">
-                        <motion.div
-                            key={active}
-                            initial={{ opacity: 0, y: 14 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -14 }}
-                            transition={{ duration: 0.5, ease: 'easeOut' }}
-                            className="space-y-8"
-                        >
-                            <p className="font-serif text-2xl md:text-3xl text-brand-cream/90 italic leading-relaxed">
-                                "{current.text}"
-                            </p>
-
-                            <div className="flex items-center justify-center gap-4">
-                                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-brand-wine to-brand-gold flex items-center justify-center text-brand-cream font-serif text-lg shadow-lg">
-                                    {current.initials}
-                                </div>
-                                <div className="text-left">
-                                    <div className="text-brand-cream font-medium">{current.name}</div>
-                                    <div className="text-[10px] uppercase tracking-[0.2em] text-brand-cream/50">{current.role}</div>
-                                </div>
+                    <div className="absolute inset-0 bg-brand-teal/10 blur-[80px] rounded-full pointer-events-none" />
+                    <div className="relative bg-[#1d1d1f] p-8 rounded-2xl border border-white/10 shadow-[0_0_30px_rgba(0,0,0,0.8)] backdrop-blur-md">
+                        <div className="flex items-center justify-between mb-8 pb-8 border-b border-white/10">
+                            <div>
+                                <h4 className="text-white font-bold text-lg">Traditional Way</h4>
+                                <span className="text-slate-500 text-sm">Do it yourself</span>
                             </div>
-                        </motion.div>
-                    </AnimatePresence>
+                            <div className="text-right">
+                                <h4 className="text-brand-teal font-bold text-lg">Our Way</h4>
+                                <span className="text-slate-500 text-sm">Done for you</span>
+                            </div>
+                        </div>
 
-                    <div className="flex items-center justify-center gap-6 mt-12">
-                        <button
-                            onClick={prev}
-                            aria-label="Previous testimonial"
-                            className="w-10 h-10 rounded-full border border-brand-cream/20 text-brand-cream/60 hover:border-brand-gold hover:text-brand-gold transition-all flex items-center justify-center"
-                        >
-                            <ChevronLeft className="w-4 h-4" />
-                        </button>
-                        <div className="flex gap-2">
-                            {TESTIMONIALS.map((_, i) => (
-                                <button
-                                    key={i}
-                                    onClick={() => setActive(i)}
-                                    aria-label={`Go to testimonial ${i + 1}`}
-                                    className={`h-1 rounded-full transition-all ${
-                                        i === active ? 'w-8 bg-brand-gold' : 'w-4 bg-brand-cream/20 hover:bg-brand-cream/40'
-                                    }`}
-                                />
+                        <div className="space-y-6">
+                            {[
+                                { label: "Time to Launch", bad: "4-6 Weeks", good: "3-7 Days" },
+                                { label: "Design Quality", bad: "Generic Template", good: "Premium Brand" },
+                                { label: "Tech Skills Needed", bad: "High", good: "None" },
+                                { label: "Conversion Rate", bad: "Average (<1%)", good: "Optimized (2-3%+)" }
+                            ].map((row, i) => (
+                                <div key={i} className="flex justify-between items-center">
+                                    <span className="text-red-400/50 line-through text-sm">{row.bad}</span>
+                                    <span className="text-slate-400 font-medium text-sm">{row.label}</span>
+                                    <span className="text-brand-teal font-bold">{row.good}</span>
+                                </div>
                             ))}
                         </div>
-                        <button
-                            onClick={next}
-                            aria-label="Next testimonial"
-                            className="w-10 h-10 rounded-full border border-brand-cream/20 text-brand-cream/60 hover:border-brand-gold hover:text-brand-gold transition-all flex items-center justify-center"
-                        >
-                            <ChevronRight className="w-4 h-4" />
-                        </button>
                     </div>
                 </div>
             </div>

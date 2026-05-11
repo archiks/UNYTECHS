@@ -45,7 +45,7 @@ const App: React.FC = () => {
               onClick={() => navigate(Route.HOME)}
               className="font-serif font-bold text-2xl tracking-tighter text-white hover:text-brand-teal transition-colors focus:outline-none flex items-center gap-2"
             >
-              POWKIDDY<span className="text-brand-teal">.</span>
+              UNYTECHS<span className="text-brand-teal">.</span>
             </button>
           </div>
           <div className="pointer-events-auto flex gap-4">
@@ -99,7 +99,7 @@ const AdminLogin: React.FC<{ onLogin: (success: boolean) => void }> = ({ onLogin
 
       <div className="bg-brand-light p-10 rounded-3xl w-full max-w-md relative z-10 border border-white/10 shadow-2xl backdrop-blur-xl">
         <div className="mb-8 text-center">
-          <h2 className="font-bold text-3xl text-white mb-2 italic tracking-tight">POWKIDDY <span className="text-brand-teal">Portal</span></h2>
+          <h2 className="font-bold text-3xl text-white mb-2 italic tracking-tight">UNYTECHS <span className="text-brand-teal">Portal</span></h2>
           <p className="text-slate-400 text-sm">Authorized Personnel Only</p>
         </div>
         <form onSubmit={handleSubmit} className="space-y-6">
